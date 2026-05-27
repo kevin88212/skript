@@ -7,14 +7,14 @@ export default function AppDownloadSection() {
         <div className="relative glass rounded-[40px] p-8 md:p-16 overflow-hidden">
           {/* BG decorations */}
           <div className="absolute top-0 right-0 w-96 h-96 opacity-20 pointer-events-none"
-            style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
+            style={{ background: "radial-gradient(circle, #22D470, transparent)" }} />
           <div className="absolute bottom-0 left-0 w-64 h-64 opacity-10 pointer-events-none"
             style={{ background: "radial-gradient(circle, #FFD23F, transparent)" }} />
 
           <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
             {/* Text */}
             <div>
-              <span className="inline-block bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] rounded-full px-4 py-1.5 text-white text-sm font-bold uppercase tracking-widest mb-6">
+              <span className="inline-block bg-gradient-to-r from-[#22D470] to-[#A3E635] rounded-full px-4 py-1.5 text-white text-sm font-bold uppercase tracking-widest mb-6">
                 Jetzt kostenlos
               </span>
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">
@@ -49,7 +49,7 @@ export default function AppDownloadSection() {
             <div className="flex justify-center">
               <div className="relative">
                 {/* Glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] rounded-[40px] blur-3xl opacity-20 scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#22D470] to-[#A3E635] rounded-[40px] blur-3xl opacity-20 scale-110" />
 
                 {/* Phone body */}
                 <div className="relative w-64 h-[520px] bg-[#1A1A2E] rounded-[40px] border-2 border-white/10 overflow-hidden shadow-2xl">
@@ -64,13 +64,13 @@ export default function AppDownloadSection() {
                   </div>
 
                   {/* App header */}
-                  <div className="bg-gradient-to-br from-[#FF6B35]/20 to-[#FFD23F]/10 px-5 py-4">
+                  <div className="bg-gradient-to-br from-[#22D470]/20 to-[#FFD23F]/10 px-5 py-4">
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <div className="text-white/60 text-xs">Lieferung nach</div>
                         <div className="text-white font-bold text-sm">Berlin Mitte 📍</div>
                       </div>
-                      <div className="w-8 h-8 bg-[#FF6B35] rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-[#22D470] rounded-full flex items-center justify-center">
                         <span className="text-white text-xs">🛒</span>
                       </div>
                     </div>
@@ -86,7 +86,7 @@ export default function AppDownloadSection() {
                         key={i}
                         className={`flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-xl ${
                           i === 0
-                            ? "bg-gradient-to-br from-[#FF6B35] to-[#FFD23F]"
+                            ? "bg-gradient-to-br from-[#22D470] to-[#A3E635]"
                             : "bg-white/10"
                         }`}
                       >
@@ -102,7 +102,7 @@ export default function AppDownloadSection() {
                     </div>
                     <div className="glass rounded-2xl p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-14 h-14 bg-gradient-to-br from-[#FF6B35]/20 to-[#FFD23F]/10 rounded-xl flex items-center justify-center text-3xl">
+                        <div className="w-14 h-14 bg-gradient-to-br from-[#22D470]/20 to-[#FFD23F]/10 rounded-xl flex items-center justify-center text-3xl">
                           🍔
                         </div>
                         <div className="flex-1">
@@ -110,7 +110,7 @@ export default function AppDownloadSection() {
                           <div className="text-[#FFD23F] text-xs">⭐ 4.9</div>
                           <div className="text-white/60 text-xs">14,90€</div>
                         </div>
-                        <div className="w-7 h-7 bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] rounded-full flex items-center justify-center">
+                        <div className="w-7 h-7 bg-gradient-to-br from-[#22D470] to-[#A3E635] rounded-full flex items-center justify-center">
                           <span className="text-white text-xs font-bold">+</span>
                         </div>
                       </div>
@@ -123,7 +123,7 @@ export default function AppDownloadSection() {
                       <button
                         key={i}
                         className={`text-xl p-2 rounded-xl transition-all ${
-                          i === 0 ? "bg-[#FF6B35]/20" : ""
+                          i === 0 ? "bg-[#22D470]/20" : ""
                         }`}
                       >
                         {icon}

@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#22D470] to-[#A3E635] flex items-center justify-center">
                 <Zap size={20} fill="white" stroke="white" />
               </div>
               <span className="text-2xl font-black gradient-text">Zestly</span>
@@ -22,7 +22,7 @@ export default function Footer() {
               {["𝕏", "📘", "📸", "🎵"].map((icon, i) => (
                 <button
                   key={i}
-                  className="w-9 h-9 glass rounded-xl flex items-center justify-center text-sm hover:border-[#FF6B35]/50 transition-all"
+                  className="w-9 h-9 glass rounded-xl flex items-center justify-center text-sm hover:border-[#22D470]/50 transition-all"
                 >
                   {icon}
                 </button>
@@ -63,7 +63,7 @@ export default function Footer() {
             © 2025 Zestly GmbH. Alle Rechte vorbehalten.
           </p>
           <p className="text-white/40 text-sm flex items-center gap-1">
-            Gemacht mit <Heart size={14} fill="#FF6B35" stroke="none" className="text-[#FF6B35]" /> in Berlin
+            Gemacht mit <Heart size={14} fill="#22D470" stroke="none" className="text-[#22D470]" /> in Berlin
           </p>
           <div className="flex gap-4">
             {["Datenschutz", "AGB", "Impressum"].map((l) => (

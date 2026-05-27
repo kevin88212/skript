@@ -17,7 +17,7 @@ type OrderWithItems = Order & { order_items: OrderItem[] };
 
 const STATUS_LABELS: Record<string, { label: string; color: string; emoji: string }> = {
   confirmed: { label: "Bestätigt", color: "#FFD23F", emoji: "✅" },
-  preparing: { label: "In Zubereitung", color: "#FF6B35", emoji: "👨‍🍳" },
+  preparing: { label: "In Zubereitung", color: "#22D470", emoji: "👨‍🍳" },
   on_the_way: { label: "Unterwegs", color: "#06D6A0", emoji: "🛵" },
   almost_there: { label: "Fast da", color: "#06D6A0", emoji: "📍" },
   delivered: { label: "Geliefert", color: "#06D6A0", emoji: "🎉" },
@@ -82,7 +82,7 @@ export default function ProfilePage() {
   if (loading || !user) {
     return (
       <div className="animated-bg min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-[#FF6B35]/30 border-t-[#FF6B35] rounded-full animate-spin" />
+        <div className="w-10 h-10 border-2 border-[#22D470]/30 border-t-[#22D470] rounded-full animate-spin" />
       </div>
     );
   }
@@ -100,7 +100,7 @@ export default function ProfilePage() {
           <div className="glass rounded-3xl p-8 mb-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
               {/* Avatar */}
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center text-3xl font-black text-white orange-glow flex-shrink-0">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#22D470] to-[#A3E635] flex items-center justify-center text-3xl font-black text-white orange-glow flex-shrink-0">
                 {initials}
               </div>
 
@@ -112,7 +112,7 @@ export default function ProfilePage() {
                 </p>
                 {savedAddress && (
                   <p className="text-white/50 text-sm mt-1 flex items-center gap-2">
-                    <MapPin size={14} className="text-[#FF6B35]" />
+                    <MapPin size={14} className="text-[#22D470]" />
                     {savedAddress}
                   </p>
                 )}
@@ -148,7 +148,7 @@ export default function ProfilePage() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-6 py-3 rounded-2xl font-semibold text-sm transition-all ${
                   activeTab === tab
-                    ? "bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white"
+                    ? "bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white"
                     : "glass text-white/60 hover:text-white"
                 }`}
               >
@@ -162,7 +162,7 @@ export default function ProfilePage() {
             <div className="space-y-4">
               {ordersLoading ? (
                 <div className="flex justify-center py-16">
-                  <div className="w-8 h-8 border-2 border-[#FF6B35]/30 border-t-[#FF6B35] rounded-full animate-spin" />
+                  <div className="w-8 h-8 border-2 border-[#22D470]/30 border-t-[#22D470] rounded-full animate-spin" />
                 </div>
               ) : orders.length === 0 ? (
                 <div className="glass rounded-3xl p-16 text-center">
@@ -171,7 +171,7 @@ export default function ProfilePage() {
                   <p className="text-white/50 mb-6">Deine erste Bestellung wartet!</p>
                   <Link
                     href="/menu"
-                    className="btn-press inline-flex items-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold px-8 py-4 rounded-2xl"
+                    className="btn-press inline-flex items-center gap-2 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold px-8 py-4 rounded-2xl"
                   >
                     Jetzt bestellen
                   </Link>
@@ -180,7 +180,7 @@ export default function ProfilePage() {
                 orders.map((order) => {
                   const status = STATUS_LABELS[order.status] ?? STATUS_LABELS.confirmed;
                   return (
-                    <div key={order.id} className="glass rounded-3xl p-6 hover:border-[#FF6B35]/20 transition-all">
+                    <div key={order.id} className="glass rounded-3xl p-6 hover:border-[#22D470]/20 transition-all">
                       <div className="flex items-start justify-between mb-4 gap-4">
                         <div>
                           <div className="flex items-center gap-2 flex-wrap">
@@ -236,7 +236,7 @@ export default function ProfilePage() {
                         {order.status !== "delivered" && (
                           <Link
                             href="/tracking"
-                            className="flex items-center gap-1 text-[#FF6B35] text-sm font-semibold hover:gap-2 transition-all"
+                            className="flex items-center gap-1 text-[#22D470] text-sm font-semibold hover:gap-2 transition-all"
                           >
                             Live verfolgen <ChevronRight size={16} />
                           </Link>
@@ -265,13 +265,13 @@ export default function ProfilePage() {
               <div className="glass rounded-3xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-bold text-white flex items-center gap-2">
-                    <MapPin size={16} className="text-[#FF6B35]" />
+                    <MapPin size={16} className="text-[#22D470]" />
                     Lieferadresse
                   </h3>
                   {!editingAddress && (
                     <button
                       onClick={() => { setAddress(savedAddress); setEditingAddress(true); }}
-                      className="text-[#FF6B35] text-sm flex items-center gap-1 hover:text-[#FFD23F] transition-colors"
+                      className="text-[#22D470] text-sm flex items-center gap-1 hover:text-[#FFD23F] transition-colors"
                     >
                       <Edit3 size={14} /> Bearbeiten
                     </button>
@@ -284,12 +284,12 @@ export default function ProfilePage() {
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       placeholder="Musterstraße 1, 10115 Berlin"
-                      className="w-full bg-white/5 border border-white/10 focus:border-[#FF6B35]/50 rounded-xl px-4 py-3 text-white placeholder-white/25 focus:outline-none"
+                      className="w-full bg-white/5 border border-white/10 focus:border-[#22D470]/50 rounded-xl px-4 py-3 text-white placeholder-white/25 focus:outline-none"
                     />
                     <div className="flex gap-2">
                       <button
                         onClick={saveAddress}
-                        className="btn-press flex items-center gap-1.5 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold px-5 py-2.5 rounded-xl text-sm"
+                        className="btn-press flex items-center gap-1.5 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold px-5 py-2.5 rounded-xl text-sm"
                       >
                         <Check size={14} /> Speichern
                       </button>
@@ -348,7 +348,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="h-3 bg-white/10 rounded-full overflow-hidden mb-2">
                   <div
-                    className="h-full bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] rounded-full"
+                    className="h-full bg-gradient-to-r from-[#22D470] to-[#A3E635] rounded-full"
                     style={{ width: `${Math.min((orders.length * 47) / 500 * 100, 100)}%` }}
                   />
                 </div>

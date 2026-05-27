@@ -42,12 +42,12 @@ function LoginForm() {
     <div className="animated-bg min-h-screen flex items-center justify-center px-6">
       {/* Background orb */}
       <div className="fixed top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] opacity-10 pointer-events-none"
-        style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
+        style={{ background: "radial-gradient(circle, #22D470, transparent)" }} />
 
       <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <Link href="/" className="flex items-center justify-center gap-2 mb-10">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center orange-glow">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#22D470] to-[#A3E635] flex items-center justify-center orange-glow">
             <Zap size={22} fill="white" stroke="white" />
           </div>
           <span className="text-3xl font-black gradient-text">Zestly</span>
@@ -78,7 +78,7 @@ function LoginForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="deine@email.de"
-                  className="w-full bg-white/5 border border-white/10 focus:border-[#FF6B35]/50 rounded-xl pl-11 pr-4 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
+                  className="w-full bg-white/5 border border-white/10 focus:border-[#22D470]/50 rounded-xl pl-11 pr-4 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
                 />
               </div>
             </div>
@@ -94,7 +94,7 @@ function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="w-full bg-white/5 border border-white/10 focus:border-[#FF6B35]/50 rounded-xl pl-11 pr-12 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
+                  className="w-full bg-white/5 border border-white/10 focus:border-[#22D470]/50 rounded-xl pl-11 pr-12 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
                 />
                 <button
                   type="button"
@@ -118,7 +118,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-press w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold py-4 rounded-2xl orange-glow hover:orange-glow-strong transition-all disabled:opacity-60 disabled:cursor-not-allowed text-lg"
+              className="btn-press w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold py-4 rounded-2xl orange-glow hover:orange-glow-strong transition-all disabled:opacity-60 disabled:cursor-not-allowed text-lg"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -133,7 +133,7 @@ function LoginForm() {
 
           <div className="mt-6 text-center text-white/50 text-sm">
             Noch kein Konto?{" "}
-            <Link href="/auth/register" className="text-[#FF6B35] font-semibold hover:text-[#FFD23F] transition-colors">
+            <Link href="/auth/register" className="text-[#22D470] font-semibold hover:text-[#FFD23F] transition-colors">
               Jetzt registrieren
             </Link>
           </div>

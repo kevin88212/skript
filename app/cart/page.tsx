@@ -106,7 +106,7 @@ export default function CartPage() {
             </div>
             <Link
               href="/tracking"
-              className="btn-press inline-flex items-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold px-8 py-4 rounded-2xl"
+              className="btn-press inline-flex items-center gap-2 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold px-8 py-4 rounded-2xl"
             >
               Live verfolgen <ArrowRight size={18} />
             </Link>
@@ -127,7 +127,7 @@ export default function CartPage() {
           <div className="flex items-center gap-4 mb-10">
             <Link
               href="/menu"
-              className="glass rounded-xl p-2.5 hover:border-[#FF6B35]/30 transition-all"
+              className="glass rounded-xl p-2.5 hover:border-[#22D470]/30 transition-all"
             >
               <ChevronLeft size={20} />
             </Link>
@@ -148,7 +148,7 @@ export default function CartPage() {
               <p className="text-white/50 mb-8">Stöbere in unserer Speisekarte und füge Leckereien hinzu!</p>
               <Link
                 href="/menu"
-                className="btn-press inline-flex items-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold px-8 py-4 rounded-2xl"
+                className="btn-press inline-flex items-center gap-2 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold px-8 py-4 rounded-2xl"
               >
                 Zur Speisekarte <ArrowRight size={18} />
               </Link>
@@ -160,9 +160,9 @@ export default function CartPage() {
                 {items.map((item) => (
                   <div
                     key={item.id}
-                    className="glass rounded-2xl p-5 flex items-center gap-5 group hover:border-[#FF6B35]/20 transition-all"
+                    className="glass rounded-2xl p-5 flex items-center gap-5 group hover:border-[#22D470]/20 transition-all"
                   >
-                    <div className="w-20 h-20 bg-gradient-to-br from-[#FF6B35]/15 to-[#FFD23F]/10 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0">
+                    <div className="w-20 h-20 bg-gradient-to-br from-[#22D470]/15 to-[#FFD23F]/10 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0">
                       {item.emoji}
                     </div>
 
@@ -177,14 +177,14 @@ export default function CartPage() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => updateQty(item.id, item.qty - 1)}
-                        className="w-8 h-8 glass rounded-full flex items-center justify-center hover:border-[#FF6B35]/50 transition-all active:scale-90"
+                        className="w-8 h-8 glass rounded-full flex items-center justify-center hover:border-[#22D470]/50 transition-all active:scale-90"
                       >
                         <Minus size={14} />
                       </button>
                       <span className="w-6 text-center font-bold text-white">{item.qty}</span>
                       <button
                         onClick={() => updateQty(item.id, item.qty + 1)}
-                        className="w-8 h-8 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] rounded-full flex items-center justify-center hover:shadow-lg hover:shadow-orange-500/30 transition-all active:scale-90"
+                        className="w-8 h-8 bg-gradient-to-r from-[#22D470] to-[#A3E635] rounded-full flex items-center justify-center hover:shadow-lg hover:shadow-orange-500/30 transition-all active:scale-90"
                       >
                         <Plus size={14} />
                       </button>
@@ -209,7 +209,7 @@ export default function CartPage() {
                 {/* Add more */}
                 <Link
                   href="/menu"
-                  className="flex items-center gap-3 glass rounded-2xl p-5 border-dashed border-white/20 hover:border-[#FF6B35]/50 transition-all group text-white/50 hover:text-white"
+                  className="flex items-center gap-3 glass rounded-2xl p-5 border-dashed border-white/20 hover:border-[#22D470]/50 transition-all group text-white/50 hover:text-white"
                 >
                   <div className="w-10 h-10 rounded-xl border-2 border-dashed border-current flex items-center justify-center">
                     <Plus size={18} />
@@ -223,7 +223,7 @@ export default function CartPage() {
                 {/* Promo code */}
                 <div className="glass rounded-2xl p-5">
                   <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-                    <Tag size={16} className="text-[#FF6B35]" />
+                    <Tag size={16} className="text-[#22D470]" />
                     Promo-Code
                   </h3>
                   <div className="flex gap-2">
@@ -232,11 +232,11 @@ export default function CartPage() {
                       value={promoCode}
                       onChange={(e) => { setPromoCode(e.target.value); setPromoError(""); }}
                       placeholder="z.B. ZESTLY10"
-                      className="flex-1 bg-white/5 rounded-xl px-4 py-2.5 text-white text-sm placeholder-white/30 focus:outline-none border border-white/10 focus:border-[#FF6B35]/50"
+                      className="flex-1 bg-white/5 rounded-xl px-4 py-2.5 text-white text-sm placeholder-white/30 focus:outline-none border border-white/10 focus:border-[#22D470]/50"
                     />
                     <button
                       onClick={applyPromo}
-                      className="btn-press bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold px-4 py-2.5 rounded-xl text-sm"
+                      className="btn-press bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold px-4 py-2.5 rounded-xl text-sm"
                     >
                       Ok
                     </button>
@@ -253,7 +253,7 @@ export default function CartPage() {
                 {/* Summary */}
                 <div className="glass rounded-2xl p-5">
                   <h3 className="font-bold text-white mb-5 flex items-center gap-2">
-                    <ShoppingBag size={16} className="text-[#FF6B35]" />
+                    <ShoppingBag size={16} className="text-[#22D470]" />
                     Zusammenfassung
                   </h3>
 
@@ -290,7 +290,7 @@ export default function CartPage() {
                   <button
                     onClick={placeOrder}
                     disabled={orderLoading}
-                    className="btn-press mt-6 w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold py-4 rounded-2xl orange-glow hover:orange-glow-strong transition-all text-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="btn-press mt-6 w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold py-4 rounded-2xl orange-glow hover:orange-glow-strong transition-all text-lg disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {orderLoading ? (
                       <>

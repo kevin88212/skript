@@ -68,8 +68,8 @@ export default function CustomCursor() {
         style={{
           width: 10,
           height: 10,
-          background: clicking ? "#FFD23F" : "#FF6B35",
-          boxShadow: `0 0 ${clicking ? 20 : 10}px ${clicking ? "#FFD23F" : "#FF6B35"}`,
+          background: clicking ? "#FFD23F" : "#22D470",
+          boxShadow: `0 0 ${clicking ? 20 : 10}px ${clicking ? "#FFD23F" : "#22D470"}`,
           transition: "background 0.15s, box-shadow 0.15s",
           willChange: "transform",
         }}

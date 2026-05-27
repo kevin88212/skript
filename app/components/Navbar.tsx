@@ -31,15 +31,15 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center orange-glow group-hover:scale-110 transition-transform">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#22D470] to-[#A3E635] flex items-center justify-center orange-glow group-hover:scale-110 transition-transform">
             <Zap size={20} fill="white" stroke="white" />
           </div>
           <span className="text-2xl font-black tracking-tight gradient-text">Zestly</span>
         </Link>
 
         {/* Location pill */}
-        <button className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2 text-sm text-white/70 hover:text-white hover:border-[#FF6B35]/50 transition-all">
-          <MapPin size={14} className="text-[#FF6B35]" />
+        <button className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2 text-sm text-white/70 hover:text-white hover:border-[#22D470]/50 transition-all">
+          <MapPin size={14} className="text-[#22D470]" />
           <span>Berlin Mitte</span>
           <span className="text-white/30">▾</span>
         </button>
@@ -57,7 +57,7 @@ export default function Navbar() {
               className="text-white/70 hover:text-white text-sm font-medium transition-colors relative group"
             >
               {item.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#22D470] to-[#A3E635] group-hover:w-full transition-all duration-300" />
             </Link>
           ))}
         </nav>
@@ -67,12 +67,12 @@ export default function Navbar() {
           {/* Cart */}
           <Link
             href="/cart"
-            className="relative flex items-center gap-2 glass rounded-full px-4 py-2 hover:border-[#FF6B35]/50 transition-all"
+            className="relative flex items-center gap-2 glass rounded-full px-4 py-2 hover:border-[#22D470]/50 transition-all"
           >
-            <ShoppingCart size={18} className="text-[#FF6B35]" />
+            <ShoppingCart size={18} className="text-[#22D470]" />
             <span className="hidden sm:block text-sm font-medium">Warenkorb</span>
             {itemCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#FF6B35] rounded-full text-xs font-bold flex items-center justify-center animate-bounce">
+              <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#22D470] rounded-full text-xs font-bold flex items-center justify-center animate-bounce">
                 {itemCount}
               </span>
             )}
@@ -85,7 +85,7 @@ export default function Navbar() {
                 href="/profile"
                 className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2 hover:border-[#FFD23F]/50 transition-all group"
               >
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center text-xs font-black text-white">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#22D470] to-[#A3E635] flex items-center justify-center text-xs font-black text-white">
                   {displayName?.[0]?.toUpperCase() ?? <User size={12} />}
                 </div>
                 <span className="text-sm font-medium text-white/80">{displayName}</span>
@@ -93,9 +93,9 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/auth/login"
-                className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2 hover:border-[#FF6B35]/50 transition-all"
+                className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2 hover:border-[#22D470]/50 transition-all"
               >
-                <LogIn size={16} className="text-[#FF6B35]" />
+                <LogIn size={16} className="text-[#22D470]" />
                 <span className="text-sm font-medium">Anmelden</span>
               </Link>
             )
@@ -104,7 +104,7 @@ export default function Navbar() {
           {/* CTA */}
           <Link
             href="/menu"
-            className="hidden md:flex btn-press items-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] rounded-full px-5 py-2.5 text-sm font-bold text-white hover:shadow-lg hover:shadow-orange-500/30 transition-all"
+            className="hidden md:flex btn-press items-center gap-2 bg-gradient-to-r from-[#22D470] to-[#A3E635] rounded-full px-5 py-2.5 text-sm font-bold text-white hover:shadow-lg hover:shadow-orange-500/30 transition-all"
           >
             Bestellen
           </Link>
@@ -145,7 +145,7 @@ export default function Navbar() {
           <Link
             href="/menu"
             onClick={() => setMobileOpen(false)}
-            className="btn-press mt-2 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] rounded-full px-5 py-3 text-center font-bold text-white"
+            className="btn-press mt-2 bg-gradient-to-r from-[#22D470] to-[#A3E635] rounded-full px-5 py-3 text-center font-bold text-white"
           >
             Jetzt bestellen
           </Link>

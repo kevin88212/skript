@@ -30,12 +30,12 @@ export default function PopularSection() {
               Beliebt
             </span>
             <h2 className="text-4xl md:text-5xl font-black text-white">
-              Die <span className="gradient-text">Lieblingsgerichte</span>
+              Die <span className="gradient-text">Bestseller</span>
             </h2>
           </div>
           <Link
             href="/menu"
-            className="hidden md:flex items-center gap-2 text-[#FF6B35] font-semibold hover:gap-3 transition-all group"
+            className="hidden md:flex items-center gap-2 text-[#22D470] font-semibold hover:gap-3 transition-all group"
           >
             Alle anzeigen
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -48,17 +48,17 @@ export default function PopularSection() {
             <ScrollReveal key={item.id} delay={i * 0.08} direction="up">
               <TiltCard className="glass rounded-3xl overflow-hidden group h-full flex flex-col">
                 {/* Emoji */}
-                <div className="relative bg-gradient-to-br from-[#FF6B35]/10 to-[#FFD23F]/10 p-8 flex items-center justify-center">
+                <div className="relative bg-gradient-to-br from-[#22D470]/10 to-[#FFD23F]/10 p-8 flex items-center justify-center">
                   <span className="text-7xl group-hover:scale-110 transition-transform duration-300 filter drop-shadow-lg">
                     {item.emoji}
                   </span>
                   {item.tag && (
-                    <span className="absolute top-3 left-3 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                    <span className="absolute top-3 left-3 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                       {item.tag}
                     </span>
                   )}
                   {item.popular && (
-                    <span className="absolute top-3 right-3 w-8 h-8 bg-[#FF6B35]/20 border border-[#FF6B35]/40 rounded-full flex items-center justify-center">
+                    <span className="absolute top-3 right-3 w-8 h-8 bg-[#22D470]/20 border border-[#22D470]/40 rounded-full flex items-center justify-center">
                       🔥
                     </span>
                   )}
@@ -89,7 +89,7 @@ export default function PopularSection() {
                       className={`btn-press flex items-center gap-2 rounded-xl px-4 py-2.5 font-bold text-sm transition-all duration-300 ${
                         added === item.id
                           ? "bg-[#06D6A0] text-white"
-                          : "bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white hover:shadow-lg hover:shadow-orange-500/30"
+                          : "bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white hover:shadow-lg hover:shadow-orange-500/30"
                       }`}
                     >
                       {added === item.id ? <><Check size={14} /> Hinzugefügt</> : <><Plus size={14} /> Bestellen</>}
@@ -104,7 +104,7 @@ export default function PopularSection() {
         <div className="text-center mt-10 md:hidden">
           <Link
             href="/menu"
-            className="inline-flex items-center gap-2 btn-press bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold px-8 py-4 rounded-2xl"
+            className="inline-flex items-center gap-2 btn-press bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold px-8 py-4 rounded-2xl"
           >
             Alle Gerichte <ArrowRight size={18} />
           </Link>

@@ -115,7 +115,7 @@ export default function TrackingPage() {
                 {/* ETA overlay */}
                 <div className="absolute bottom-4 left-4 glass-dark rounded-2xl px-5 py-3 z-10">
                   <div className="flex items-center gap-3">
-                    <Clock size={16} className="text-[#FF6B35]" />
+                    <Clock size={16} className="text-[#22D470]" />
                     <div>
                       <div className="text-white/50 text-xs">Ankunft in</div>
                       <div className="text-white font-black text-2xl">
@@ -145,7 +145,7 @@ export default function TrackingPage() {
 
                 <div className="h-2 bg-white/10 rounded-full mb-6 overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-[#FF6B35] to-[#06D6A0] rounded-full transition-all duration-1000"
+                    className="h-full bg-gradient-to-r from-[#22D470] to-[#06D6A0] rounded-full transition-all duration-1000"
                     style={{ width: `${progressPct}%` }}
                   />
                 </div>
@@ -159,7 +159,7 @@ export default function TrackingPage() {
                       <div
                         className={`w-10 h-10 rounded-full flex items-center justify-center text-lg transition-all duration-500 ${
                           step.id <= currentStep
-                            ? "bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] shadow-lg orange-glow scale-110"
+                            ? "bg-gradient-to-br from-[#22D470] to-[#A3E635] shadow-lg orange-glow scale-110"
                             : "bg-white/10 opacity-40"
                         }`}
                       >
@@ -184,7 +184,7 @@ export default function TrackingPage() {
               <div className="glass rounded-3xl p-5">
                 <h3 className="font-bold text-white mb-4">Dein Fahrer</h3>
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center text-2xl">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#22D470] to-[#A3E635] flex items-center justify-center text-2xl">
                     👨‍💼
                   </div>
                   <div className="flex-1">
@@ -202,7 +202,7 @@ export default function TrackingPage() {
                 </div>
                 <div className="flex gap-3 mt-4">
                   <button className="btn-press flex-1 flex items-center justify-center gap-2 glass rounded-xl py-3 text-sm font-medium text-white/70 hover:text-white transition-all">
-                    <Phone size={15} className="text-[#FF6B35]" /> Anrufen
+                    <Phone size={15} className="text-[#22D470]" /> Anrufen
                   </button>
                   <button className="btn-press flex-1 flex items-center justify-center gap-2 glass rounded-xl py-3 text-sm font-medium text-white/70 hover:text-white transition-all">
                     <MessageCircle size={15} className="text-[#FFD23F]" /> Chat
@@ -216,7 +216,7 @@ export default function TrackingPage() {
                 <div className="space-y-3">
                   {ORDER_ITEMS.map((item, i) => (
                     <div key={i} className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-[#FF6B35]/20 to-[#FFD23F]/10 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#22D470]/20 to-[#FFD23F]/10 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
                         {item.emoji}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -240,8 +240,8 @@ export default function TrackingPage() {
               {/* Address */}
               <div className="glass rounded-3xl p-5">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-[#FF6B35]/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <MapPin size={18} className="text-[#FF6B35]" />
+                  <div className="w-10 h-10 bg-[#22D470]/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <MapPin size={18} className="text-[#22D470]" />
                   </div>
                   <div>
                     <h4 className="font-bold text-white text-sm">Lieferadresse</h4>
@@ -283,7 +283,7 @@ export default function TrackingPage() {
             {rating > 0 && (
               <button
                 onClick={() => setShowRating(false)}
-                className="btn-press w-full bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold py-3 rounded-2xl"
+                className="btn-press w-full bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold py-3 rounded-2xl"
               >
                 Bewertung absenden ✓
               </button>

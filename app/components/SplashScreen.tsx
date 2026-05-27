@@ -42,7 +42,7 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
           transition: "all 0.6s cubic-bezier(0.34,1.56,0.64,1)",
         }}
       >
-        <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center orange-glow-strong">
+        <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#22D470] to-[#A3E635] flex items-center justify-center orange-glow-strong">
           <Zap size={40} fill="white" stroke="white" />
         </div>
         <span className="text-5xl font-black gradient-text tracking-tight">Zestly</span>
@@ -51,7 +51,7 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
         {/* Loading bar */}
         <div className="w-40 h-1 bg-white/10 rounded-full overflow-hidden mt-2">
           <div
-            className="h-full bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] rounded-full"
+            className="h-full bg-gradient-to-r from-[#22D470] to-[#A3E635] rounded-full"
             style={{
               width: phase === "hold" ? "100%" : "0%",
               transition: "width 0.8s ease",

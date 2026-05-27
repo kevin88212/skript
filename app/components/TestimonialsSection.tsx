@@ -3,41 +3,11 @@
 import { Star } from "lucide-react";
 
 const testimonials = [
-  {
-    name: "Laura M.",
-    city: "Berlin",
-    avatar: "👩‍💼",
-    rating: 5,
-    text: "Ich habe noch nie so schnell mein Essen bekommen! 11 Minuten von Bestellung bis Haustür. Absolut begeistert.",
-  },
-  {
-    name: "Tobias K.",
-    city: "München",
-    avatar: "👨‍💻",
-    rating: 5,
-    text: "Das Live-Tracking ist der Hammer. Man sieht wirklich live, wo der Fahrer ist. Kein Vergleich zu anderen Apps.",
-  },
-  {
-    name: "Sofia A.",
-    city: "Hamburg",
-    avatar: "👩‍🎨",
-    rating: 5,
-    text: "Die Qualität ist top. Alles kommt heiß an und schmeckt genauso gut wie im Restaurant. Bin Fan!",
-  },
-  {
-    name: "Max R.",
-    city: "Köln",
-    avatar: "👨‍🍳",
-    rating: 5,
-    text: "Zestly hat Lieferdienste neu erfunden. Die App ist so intuitiv und das Design macht einfach Spaß.",
-  },
-  {
-    name: "Elena V.",
-    city: "Frankfurt",
-    avatar: "👩‍🔬",
-    rating: 5,
-    text: "Jeden Tag Zestly – kein Tag ohne es bereut! Die Auswahl ist riesig und immer was Neues dabei.",
-  },
+  { name: "Laura M.", city: "Berlin Prenzlberg", avatar: "👩‍💼", rating: 5, text: "Endlich weiß ich wieder wo mein Essen herkommt. Die Erdbeeren vom Hof Bergmann sind unglaublich — wie früher bei Oma." },
+  { name: "Tobias K.", city: "Berlin Mitte", avatar: "👨‍💻", rating: 5, text: "Als Stadtmensch hatte ich keine Ahnung wie frisches Gemüse schmeckt. Zestly hat das geändert. Die Karotten sind ein Game-Changer!" },
+  { name: "Sofia A.", city: "Berlin Kreuzberg", avatar: "👩‍🎨", rating: 5, text: "Die Tagliatelle aus der Manufaktur sind das Beste was mir je passiert ist. Und alles in 30 Minuten — unglaublich." },
+  { name: "Max R.", city: "Berlin Lichtenberg", avatar: "👨‍🍳", rating: 5, text: "Als Koch teste ich viel. Zestly liefert Qualität, die sonst nur Profiköche auf dem Großmarkt bekommen. Absolute Empfehlung." },
+  { name: "Elena V.", city: "Berlin Schöneberg", avatar: "👩‍🔬", rating: 5, text: "Plastikfrei, regional, schnell. Ich bestelle jeden Donnerstag meine Wochenbox. Nie wieder Supermarkt-Gemüse." },
 ];
 
 export default function TestimonialsSection() {
@@ -53,20 +23,10 @@ export default function TestimonialsSection() {
           </h2>
         </div>
 
-        {/* Scrolling row 1 */}
-        <div className="relative">
-          <div
-            className="flex gap-6"
-            style={{
-              animation: "scrollLeft 30s linear infinite",
-              width: "max-content",
-            }}
-          >
+        <div className="relative overflow-hidden">
+          <div className="flex gap-6" style={{ animation: "scrollLeft 35s linear infinite", width: "max-content" }}>
             {[...testimonials, ...testimonials].map((t, i) => (
-              <div
-                key={i}
-                className="glass rounded-3xl p-6 w-80 flex-shrink-0"
-              >
+              <div key={i} className="glass rounded-3xl p-6 w-80 flex-shrink-0 hover:border-[#22D470]/30 transition-colors">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="text-3xl">{t.avatar}</div>
                   <div>
@@ -85,7 +45,6 @@ export default function TestimonialsSection() {
           </div>
         </div>
       </div>
-
       <style>{`
         @keyframes scrollLeft {
           from { transform: translateX(0); }

@@ -33,7 +33,7 @@ function AnimatedStat({ value, label, emoji }: { value: string; label: string; e
 export default function StatsSection() {
   return (
     <section className="py-20 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/10 via-transparent to-[#FFD23F]/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#22D470]/10 via-transparent to-[#FFD23F]/10" />
       <div className="max-w-5xl mx-auto px-6">
         <div className="glass rounded-3xl p-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">

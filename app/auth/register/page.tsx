@@ -59,7 +59,7 @@ export default function RegisterPage() {
           </p>
           <Link
             href="/auth/login"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold px-8 py-4 rounded-2xl"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold px-8 py-4 rounded-2xl"
           >
             Zur Anmeldung
           </Link>
@@ -77,7 +77,7 @@ export default function RegisterPage() {
 
       <div className="w-full max-w-md relative z-10">
         <Link href="/" className="flex items-center justify-center gap-2 mb-10">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center orange-glow">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#22D470] to-[#A3E635] flex items-center justify-center orange-glow">
             <Zap size={22} fill="white" stroke="white" />
           </div>
           <span className="text-3xl font-black gradient-text">Zestly</span>
@@ -102,7 +102,7 @@ export default function RegisterPage() {
                   onChange={(e) => setFullName(e.target.value)}
                   required
                   placeholder="Max Mustermann"
-                  className="w-full bg-white/5 border border-white/10 focus:border-[#FF6B35]/50 rounded-xl pl-11 pr-4 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
+                  className="w-full bg-white/5 border border-white/10 focus:border-[#22D470]/50 rounded-xl pl-11 pr-4 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
                 />
               </div>
             </div>
@@ -118,7 +118,7 @@ export default function RegisterPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="deine@email.de"
-                  className="w-full bg-white/5 border border-white/10 focus:border-[#FF6B35]/50 rounded-xl pl-11 pr-4 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
+                  className="w-full bg-white/5 border border-white/10 focus:border-[#22D470]/50 rounded-xl pl-11 pr-4 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
                 />
               </div>
             </div>
@@ -134,7 +134,7 @@ export default function RegisterPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="Mindestens 8 Zeichen"
-                  className="w-full bg-white/5 border border-white/10 focus:border-[#FF6B35]/50 rounded-xl pl-11 pr-12 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
+                  className="w-full bg-white/5 border border-white/10 focus:border-[#22D470]/50 rounded-xl pl-11 pr-12 py-3.5 text-white placeholder-white/25 focus:outline-none transition-all"
                 />
                 <button
                   type="button"
@@ -186,7 +186,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-press w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold py-4 rounded-2xl orange-glow hover:orange-glow-strong transition-all disabled:opacity-60 text-lg"
+              className="btn-press w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white font-bold py-4 rounded-2xl orange-glow hover:orange-glow-strong transition-all disabled:opacity-60 text-lg"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -207,7 +207,7 @@ export default function RegisterPage() {
 
           <div className="mt-4 text-center text-white/50 text-sm">
             Bereits Konto?{" "}
-            <Link href="/auth/login" className="text-[#FF6B35] font-semibold hover:text-[#FFD23F] transition-colors">
+            <Link href="/auth/login" className="text-[#22D470] font-semibold hover:text-[#FFD23F] transition-colors">
               Anmelden
             </Link>
           </div>

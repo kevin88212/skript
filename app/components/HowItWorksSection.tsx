@@ -3,16 +3,16 @@
 import ScrollReveal from "./ScrollReveal";
 
 const steps = [
-  { step: "01", emoji: "📍", title: "Standort eingeben", desc: "Gib deine Adresse ein – wir zeigen dir alle Restaurants in deiner Nähe.", color: "#FF6B35" },
-  { step: "02", emoji: "🍽️", title: "Auswählen & bestellen", desc: "Wähle aus über 500 Gerichten. Bezahle sicher mit einem Klick.", color: "#FFD23F" },
+  { step: "01", emoji: "📍", title: "Standort eingeben", desc: "Gib deine Adresse ein – wir zeigen dir welche Erzeuger in deiner Region liefern.", color: "#22D470" },
+  { step: "02", emoji: "🍽️", title: "Auswählen & bestellen", desc: "Wähle Obst, Gemüse, Nudeln & Spezialitäten. Bezahle sicher in Sekunden.", color: "#FFD23F" },
   { step: "03", emoji: "⚡", title: "Live verfolgen", desc: "Sieh deinen Fahrer in Echtzeit auf der Karte. Kein Rätselraten.", color: "#06D6A0" },
-  { step: "04", emoji: "🎉", title: "Genießen!", desc: "Heiß geliefert, perfekt angerichtet. Lass es dir schmecken.", color: "#FF6B35" },
+  { step: "04", emoji: "🎉", title: "Genießen!", desc: "Erntefrisch bei dir. Pack aus, genieße – und schmeck den Unterschied.", color: "#22D470" },
 ];
 
 export default function HowItWorksSection() {
   return (
     <section className="py-24 relative" id="how-it-works">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FF6B35]/3 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#22D470]/3 to-transparent pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6">
         <ScrollReveal className="text-center mb-16">
@@ -27,7 +27,7 @@ export default function HowItWorksSection() {
         <div className="relative">
           {/* Connecting line */}
           <ScrollReveal>
-            <div className="hidden lg:block absolute top-[52px] left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-[#FF6B35] via-[#FFD23F] to-[#06D6A0] opacity-25" />
+            <div className="hidden lg:block absolute top-[52px] left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-[#22D470] via-[#FFD23F] to-[#06D6A0] opacity-25" />
           </ScrollReveal>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">

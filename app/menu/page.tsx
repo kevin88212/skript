@@ -42,10 +42,10 @@ export default function MenuPage() {
       {/* Header */}
       <section className="pt-32 pb-12 px-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] opacity-10 pointer-events-none"
-          style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
+          style={{ background: "radial-gradient(circle, #22D470, transparent)" }} />
         <div className="max-w-7xl mx-auto">
           <div className="slide-in-up">
-            <span className="inline-block glass rounded-full px-4 py-1.5 text-[#FF6B35] text-sm font-bold uppercase tracking-widest mb-4">
+            <span className="inline-block glass rounded-full px-4 py-1.5 text-[#22D470] text-sm font-bold uppercase tracking-widest mb-4">
               Unsere Speisekarte
             </span>
             <h1 className="text-5xl md:text-7xl font-black text-white mb-4">
@@ -67,7 +67,7 @@ export default function MenuPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Suche nach Burgern, Pizza, Sushi…"
-              className="w-full glass rounded-2xl pl-14 pr-6 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#FF6B35]/50 border border-white/0 transition-all text-lg"
+              className="w-full glass rounded-2xl pl-14 pr-6 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#22D470]/50 border border-white/0 transition-all text-lg"
             />
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function MenuPage() {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`flex-shrink-0 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all ${
                   activeCategory === cat.id
-                    ? "bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white shadow-lg shadow-orange-500/20"
+                    ? "bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white shadow-lg shadow-orange-500/20"
                     : "glass text-white/60 hover:text-white"
                 }`}
               >
@@ -100,7 +100,7 @@ export default function MenuPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent border border-white/20 rounded-xl px-3 py-2 text-white/70 text-sm focus:outline-none focus:border-[#FF6B35]/50"
+              className="bg-transparent border border-white/20 rounded-xl px-3 py-2 text-white/70 text-sm focus:outline-none focus:border-[#22D470]/50"
             >
               <option value="popular" className="bg-[#1A1A2E]">Beliebt</option>
               <option value="rating" className="bg-[#1A1A2E]">Bewertung</option>
@@ -132,12 +132,12 @@ export default function MenuPage() {
                   className="glass rounded-3xl overflow-hidden food-card group"
                 >
                   {/* Emoji image area */}
-                  <div className="relative bg-gradient-to-br from-[#FF6B35]/10 to-[#FFD23F]/10 p-8 flex items-center justify-center min-h-[160px]">
+                  <div className="relative bg-gradient-to-br from-[#22D470]/10 to-[#FFD23F]/10 p-8 flex items-center justify-center min-h-[160px]">
                     <span className="text-7xl group-hover:scale-110 transition-transform duration-300">
                       {item.emoji}
                     </span>
                     {item.tag && (
-                      <span className="absolute top-3 left-3 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                      <span className="absolute top-3 left-3 bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                         {item.tag}
                       </span>
                     )}
@@ -175,7 +175,7 @@ export default function MenuPage() {
                         className={`btn-press flex items-center gap-1.5 rounded-xl px-4 py-2 font-bold text-sm transition-all duration-300 ${
                           added === item.id
                             ? "bg-[#06D6A0] text-white"
-                            : "bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white hover:shadow-lg hover:shadow-orange-500/30"
+                            : "bg-gradient-to-r from-[#22D470] to-[#A3E635] text-white hover:shadow-lg hover:shadow-orange-500/30"
                         }`}
                       >
                         {added === item.id ? (

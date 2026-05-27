@@ -9,7 +9,7 @@ interface Particle {
   color: string;
 }
 
-const COLORS = ["#FF6B35", "#FFD23F", "#FF8C5A", "#06D6A0", "#FF6B35"];
+const COLORS = ["#22D470", "#FFD23F", "#FF8C5A", "#06D6A0", "#22D470"];
 
 export default function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
