@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Diese Einträge müssen in ios/App/App/Info.plist eingefügt werden.
+  Das setup-ios.sh Skript macht das automatisch.
+-->
+<entries>
+  <!-- HealthKit Berechtigungen -->
+  <key>NSHealthShareUsageDescription</key>
+  <string>FitQuest liest deine Gesundheitsdaten (Gewicht, Schritte, Herzfrequenz) um deinen Fortschritt zu tracken.</string>
+
+  <key>NSHealthUpdateUsageDescription</key>
+  <string>FitQuest speichert dein Training und Gewicht in Apple Health.</string>
+
+  <!-- App erscheint vollständig im Vollbild -->
+  <key>UIViewControllerBasedStatusBarAppearance</key>
+  <false/>
+
+  <!-- Landscape deaktivieren (Fitness-App = Hochformat) -->
+  <key>UISupportedInterfaceOrientations</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+  </array>
+</entries>

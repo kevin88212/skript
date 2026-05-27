@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Flame, Trophy, Zap, Target, ChevronRight, Lock, Heart, Footprints, Activity } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
-import { requestHealthPermissions, getTodaySteps, getTodayCalories, getRestingHeartRate } from '../services/health';
+import { requestHealthPermissions, getAllHealthData } from '../services/health';
 
 const bmi = (w, h) => (w / (h / 100) ** 2).toFixed(1);
 
@@ -41,24 +41,25 @@ export default function Dashboard() {
   const xpPct = Math.round((profile.xp / profile.xpToNext) * 100);
   const today = new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
 
-  const [health, setHealth] = useState({ steps: null, calories: null, hr: null, connected: false });
+  const [health, setHealth] = useState({ steps: null, calories: null, hr: null, distance: null, connected: false });
 
   const connectHealth = async () => {
     const { granted } = await requestHealthPermissions();
     if (!granted) return;
-    const [steps, calories, hr] = await Promise.all([getTodaySteps(), getTodayCalories(), getRestingHeartRate()]);
-    setHealth({ steps, calories, hr, connected: true });
+    const data = await getAllHealthData();
+    setHealth({ ...data, connected: true });
+    // Gewicht automatisch aus Apple Health übernehmen
+    if (data.weight && Math.abs(data.weight - profile.weight) > 0.4) {
+      updateProfile({ weight: data.weight });
+    }
+    localStorage.setItem('health_connected', 'true');
   };
 
   useEffect(() => {
-    const saved = localStorage.getItem('health_connected');
-    if (saved === 'true') connectHealth();
+    if (localStorage.getItem('health_connected') === 'true') connectHealth();
   }, []);
 
-  const handleConnectHealth = () => {
-    localStorage.setItem('health_connected', 'true');
-    connectHealth();
-  };
+  const handleConnectHealth = () => connectHealth();
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-4xl">
@@ -194,24 +195,37 @@ export default function Dashboard() {
         </div>
 
         {health.connected ? (
-          <div className="grid grid-cols-3 gap-3 text-center">
-            {[
-              { icon: Footprints, label: 'Schritte', value: health.steps?.toLocaleString('de-DE') ?? '–', color: '#34d399' },
-              { icon: Activity,   label: 'Kalorien', value: health.calories ? `${health.calories} kcal` : '–', color: '#f87171' },
-              { icon: Heart,      label: 'Puls ∅',   value: health.hr ? `${health.hr} bpm` : '–', color: '#f472b6' },
-            ].map(({ icon: Icon, label, value, color }) => (
-              <div key={label} className="rounded-xl p-3" style={{ background: `${color}12` }}>
-                <Icon size={18} style={{ color }} className="mx-auto mb-1" />
-                <div className="text-base font-bold text-white">{value}</div>
-                <div className="text-xs text-gray-500">{label}</div>
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 gap-3 text-center mb-3">
+              {[
+                { icon: Footprints, label: 'Schritte heute',   value: health.steps != null ? health.steps.toLocaleString('de-DE') : '–', color: '#34d399' },
+                { icon: Activity,   label: 'Aktive Kalorien',  value: health.calories != null ? `${health.calories} kcal` : '–',          color: '#f87171' },
+                { icon: Heart,      label: 'Ruhepuls (7d ∅)',  value: health.hr != null ? `${health.hr} bpm` : '–',                        color: '#f472b6' },
+                { icon: Zap,        label: 'Distanz heute',    value: health.distance != null ? `${health.distance} km` : '–',             color: '#fbbf24' },
+              ].map(({ icon: Icon, label, value, color }) => (
+                <div key={label} className="rounded-xl p-3" style={{ background: `${color}12` }}>
+                  <Icon size={16} style={{ color }} className="mx-auto mb-1" />
+                  <div className="text-base font-bold text-white">{value}</div>
+                  <div className="text-xs text-gray-500">{label}</div>
+                </div>
+              ))}
+            </div>
+            <div className="text-xs text-gray-600 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
+              Gewicht wird automatisch aus Apple Health synchronisiert
+            </div>
+          </>
         ) : (
-          <p className="text-xs text-gray-500">
-            Verbinde Apple Health um Schritte, Kalorien und Herzfrequenz direkt hier zu sehen.
-            {' '}<span className="text-red-400">Nur in der nativen App verfügbar</span> – im Browser als Demo-Werte.
-          </p>
+          <div>
+            <p className="text-xs text-gray-500 mb-3">
+              Verbinde Apple Health um Schritte, Kalorien, Herzfrequenz und Gewicht direkt hier zu sehen.
+              Das Gewicht wird automatisch in dein Profil übernommen.
+            </p>
+            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200">
+              ⚠️ Apple Health ist nur in der nativen iOS-App verfügbar.
+              Führe <code className="bg-black/30 px-1 rounded">bash setup-ios.sh</code> auf deinem Mac aus.
+            </div>
+          </div>
         )}
       </motion.div>
 

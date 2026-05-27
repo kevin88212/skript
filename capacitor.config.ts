@@ -6,10 +6,17 @@ const config: CapacitorConfig = {
   webDir: 'dist',
   ios: {
     contentInset: 'automatic',
+    backgroundColor: '#050508',
+    allowsLinkPreview: false,
+    scrollEnabled: false,
   },
   plugins: {
-    CapacitorHealthkit: {
-      // HealthKit permissions are declared in Info.plist
+    SplashScreen: {
+      launchShowDuration: 1500,
+      backgroundColor: '#050508',
+      androidSplashResourceName: 'splash',
+      androidScaleType: 'CENTER_CROP',
+      showSpinner: false,
     },
   },
 };
