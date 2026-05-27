@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Flame, Trophy, Zap, Target, ChevronRight, Lock } from 'lucide-react';
+import { Flame, Trophy, Zap, Target, ChevronRight, Lock, Heart, Footprints, Activity } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import { requestHealthPermissions, getTodaySteps, getTodayCalories, getRestingHeartRate } from '../services/health';
 
 const bmi = (w, h) => (w / (h / 100) ** 2).toFixed(1);
 
@@ -33,12 +35,30 @@ function StatCard({ icon: Icon, label, value, sub, color, glow }) {
 }
 
 export default function Dashboard() {
-  const { profile, focusModeActive, setFocusModeActive, completedWorkoutToday } = useApp();
+  const { profile, focusModeActive, setFocusModeActive, completedWorkoutToday, updateProfile } = useApp();
   const navigate = useNavigate();
   const bmiVal = bmi(profile.weight, profile.height);
   const xpPct = Math.round((profile.xp / profile.xpToNext) * 100);
-
   const today = new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
+
+  const [health, setHealth] = useState({ steps: null, calories: null, hr: null, connected: false });
+
+  const connectHealth = async () => {
+    const { granted } = await requestHealthPermissions();
+    if (!granted) return;
+    const [steps, calories, hr] = await Promise.all([getTodaySteps(), getTodayCalories(), getRestingHeartRate()]);
+    setHealth({ steps, calories, hr, connected: true });
+  };
+
+  useEffect(() => {
+    const saved = localStorage.getItem('health_connected');
+    if (saved === 'true') connectHealth();
+  }, []);
+
+  const handleConnectHealth = () => {
+    localStorage.setItem('health_connected', 'true');
+    connectHealth();
+  };
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-4xl">
@@ -153,6 +173,47 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
+
+      {/* Apple Health */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+        className="card-dark rounded-2xl p-5 border border-red-500/20"
+      >
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span className="text-xl">❤️</span>
+            <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-widest">Apple Health</h2>
+          </div>
+          {!health.connected && (
+            <button
+              onClick={handleConnectHealth}
+              className="text-xs px-3 py-1.5 rounded-lg bg-red-500/20 text-red-300 border border-red-500/30 hover:bg-red-500/30 transition-colors"
+            >
+              Verbinden
+            </button>
+          )}
+        </div>
+
+        {health.connected ? (
+          <div className="grid grid-cols-3 gap-3 text-center">
+            {[
+              { icon: Footprints, label: 'Schritte', value: health.steps?.toLocaleString('de-DE') ?? '–', color: '#34d399' },
+              { icon: Activity,   label: 'Kalorien', value: health.calories ? `${health.calories} kcal` : '–', color: '#f87171' },
+              { icon: Heart,      label: 'Puls ∅',   value: health.hr ? `${health.hr} bpm` : '–', color: '#f472b6' },
+            ].map(({ icon: Icon, label, value, color }) => (
+              <div key={label} className="rounded-xl p-3" style={{ background: `${color}12` }}>
+                <Icon size={18} style={{ color }} className="mx-auto mb-1" />
+                <div className="text-base font-bold text-white">{value}</div>
+                <div className="text-xs text-gray-500">{label}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-xs text-gray-500">
+            Verbinde Apple Health um Schritte, Kalorien und Herzfrequenz direkt hier zu sehen.
+            {' '}<span className="text-red-400">Nur in der nativen App verfügbar</span> – im Browser als Demo-Werte.
+          </p>
+        )}
+      </motion.div>
 
       {/* Body Stats */}
       <motion.div
