@@ -2,19 +2,25 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShoppingCart, Menu, X, Zap, MapPin } from "lucide-react";
+import { ShoppingCart, Menu, X, Zap, MapPin, User, LogIn } from "lucide-react";
 import { useCartStore } from "../lib/store";
+import { useAuth } from "../lib/auth-context";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const itemCount = useCartStore((s) => s.items.reduce((acc, i) => acc + i.qty, 0));
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  const displayName = user?.user_metadata?.full_name?.split(" ")[0]
+    || user?.email?.split("@")[0]
+    || null;
 
   return (
     <header
@@ -32,7 +38,7 @@ export default function Navbar() {
         </Link>
 
         {/* Location pill */}
-        <button className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2 text-sm text-white/70 hover:text-white hover:border-[#FF6B35]/50 transition-all group">
+        <button className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2 text-sm text-white/70 hover:text-white hover:border-[#FF6B35]/50 transition-all">
           <MapPin size={14} className="text-[#FF6B35]" />
           <span>Berlin Mitte</span>
           <span className="text-white/30">▾</span>
@@ -56,11 +62,12 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* CTA + Cart */}
-        <div className="flex items-center gap-4">
+        {/* Right controls */}
+        <div className="flex items-center gap-3">
+          {/* Cart */}
           <Link
             href="/cart"
-            className="relative flex items-center gap-2 glass rounded-full px-4 py-2 hover:border-[#FF6B35]/50 transition-all group"
+            className="relative flex items-center gap-2 glass rounded-full px-4 py-2 hover:border-[#FF6B35]/50 transition-all"
           >
             <ShoppingCart size={18} className="text-[#FF6B35]" />
             <span className="hidden sm:block text-sm font-medium">Warenkorb</span>
@@ -71,14 +78,38 @@ export default function Navbar() {
             )}
           </Link>
 
+          {/* Auth */}
+          {!loading && (
+            user ? (
+              <Link
+                href="/profile"
+                className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2 hover:border-[#FFD23F]/50 transition-all group"
+              >
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFD23F] flex items-center justify-center text-xs font-black text-white">
+                  {displayName?.[0]?.toUpperCase() ?? <User size={12} />}
+                </div>
+                <span className="text-sm font-medium text-white/80">{displayName}</span>
+              </Link>
+            ) : (
+              <Link
+                href="/auth/login"
+                className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2 hover:border-[#FF6B35]/50 transition-all"
+              >
+                <LogIn size={16} className="text-[#FF6B35]" />
+                <span className="text-sm font-medium">Anmelden</span>
+              </Link>
+            )
+          )}
+
+          {/* CTA */}
           <Link
             href="/menu"
             className="hidden md:flex btn-press items-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] rounded-full px-5 py-2.5 text-sm font-bold text-white hover:shadow-lg hover:shadow-orange-500/30 transition-all"
           >
-            Jetzt bestellen
+            Bestellen
           </Link>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden glass rounded-full p-2"
@@ -94,8 +125,13 @@ export default function Navbar() {
           {[
             { label: "Speisekarte", href: "/menu" },
             { label: "Tracking", href: "/tracking" },
-            { label: "Über uns", href: "/#about" },
             { label: "Warenkorb", href: "/cart" },
+            ...(user
+              ? [{ label: "Mein Profil", href: "/profile" }]
+              : [
+                  { label: "Anmelden", href: "/auth/login" },
+                  { label: "Registrieren", href: "/auth/register" },
+                ]),
           ].map((item) => (
             <Link
               key={item.href}

@@ -2,17 +2,23 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useCartStore } from "../lib/store";
+import { useAuth } from "../lib/auth-context";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Tag, ChevronLeft } from "lucide-react";
 
 export default function CartPage() {
   const { items, removeItem, updateQty, clearCart, total } = useCartStore();
+  const { user } = useAuth();
+  const router = useRouter();
   const [promoCode, setPromoCode] = useState("");
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [orderId, setOrderId] = useState<string | null>(null);
 
   const subtotal = total();
   const delivery = subtotal >= 15 ? 0 : 2.99;
@@ -29,11 +35,37 @@ export default function CartPage() {
     }
   };
 
-  const placeOrder = () => {
-    setOrderPlaced(true);
-    setTimeout(() => {
-      clearCart();
-    }, 500);
+  const placeOrder = async () => {
+    if (!user) {
+      router.push("/auth/login?redirect=/cart");
+      return;
+    }
+    setOrderLoading(true);
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((i) => ({
+            id: i.id, name: i.name, emoji: i.emoji, qty: i.qty, price: i.price,
+          })),
+          delivery_address: "Unter den Linden 77, 10117 Berlin Mitte",
+          total: finalTotal,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setOrderId(data.order.id);
+        setOrderPlaced(true);
+        setTimeout(() => clearCart(), 500);
+      } else {
+        alert(data.error || "Fehler beim Bestellen");
+      }
+    } catch {
+      alert("Netzwerkfehler. Bitte nochmal versuchen.");
+    } finally {
+      setOrderLoading(false);
+    }
   };
 
   if (orderPlaced) {
@@ -53,7 +85,9 @@ export default function CartPage() {
             <div className="glass rounded-3xl p-6 mb-8 text-left">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-3 h-3 rounded-full bg-[#06D6A0] animate-pulse" />
-                <span className="text-white font-medium">Bestellung #ZE-{Math.floor(Math.random() * 9000) + 1000}</span>
+                <span className="text-white font-medium">
+                  Bestellung #{orderId ? orderId.slice(0, 8).toUpperCase() : "ZE-" + (Math.floor(Math.random() * 9000) + 1000)}
+                </span>
               </div>
               <div className="flex gap-3">
                 {["✅ Bestätigt", "👨‍🍳 Zubereitung", "🛵 Unterwegs", "📍 Geliefert"].map((s, i) => (
@@ -255,9 +289,19 @@ export default function CartPage() {
 
                   <button
                     onClick={placeOrder}
-                    className="btn-press mt-6 w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold py-4 rounded-2xl orange-glow hover:orange-glow-strong transition-all text-lg"
+                    disabled={orderLoading}
+                    className="btn-press mt-6 w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] text-white font-bold py-4 rounded-2xl orange-glow hover:orange-glow-strong transition-all text-lg disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Jetzt bestellen <ArrowRight size={20} />
+                    {orderLoading ? (
+                      <>
+                        <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Wird verarbeitet…
+                      </>
+                    ) : !user ? (
+                      <>Anmelden & bestellen <ArrowRight size={20} /></>
+                    ) : (
+                      <>Jetzt bestellen <ArrowRight size={20} /></>
+                    )}
                   </button>
 
                   <div className="flex items-center justify-center gap-2 mt-4 text-white/30 text-xs">
