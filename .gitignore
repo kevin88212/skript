@@ -8,3 +8,5 @@ README*
 dist/
 .vite/
 *.md
+ios-config/
+*.sh
