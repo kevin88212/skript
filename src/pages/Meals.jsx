@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Utensils, RefreshCw, ChevronDown, ChevronUp, ExternalLink, Zap } from 'lucide-react';
+import { Utensils, RefreshCw, ChevronDown, ChevronUp, ExternalLink, Zap, Lock } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { getTotalMacros, MEAL_TAGS } from '../data/meals';
 
@@ -25,8 +25,29 @@ function MacroBar({ label, value, max, color }) {
   );
 }
 
-function MealCard({ meal, label, emoji }) {
+function MealCard({ meal, label, emoji, userLevel }) {
   const [open, setOpen] = useState(false);
+  const reqLevel = meal.unlockLevel ?? 1;
+  const isLocked = reqLevel > userLevel;
+
+  if (isLocked) {
+    return (
+      <div className="card-dark rounded-2xl p-4 border border-gray-700/30 opacity-50 flex items-center gap-4">
+        <div className="w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center text-2xl shrink-0">
+          {meal.emoji}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="text-xs text-gray-500 uppercase tracking-wide">{emoji} {label}</div>
+          <div className="font-bold text-gray-500 text-sm mt-0.5">{meal.name}</div>
+          <div className="text-xs text-gray-600 mt-1">{meal.kcal} kcal · {meal.protein}g Protein</div>
+        </div>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-800 border border-gray-700/60 shrink-0">
+          <Lock size={12} className="text-gray-500" />
+          <span className="text-xs text-gray-500 font-semibold">Level {reqLevel}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -139,8 +160,9 @@ function MealCard({ meal, label, emoji }) {
 }
 
 export default function Meals() {
-  const { dailyMeals, refreshMeals } = useApp();
+  const { dailyMeals, refreshMeals, profile } = useApp();
   const totals = getTotalMacros(dailyMeals);
+  const userLevel = profile.level;
   const KCAL_GOAL = 2200;
 
   return (
@@ -205,9 +227,9 @@ export default function Meals() {
 
       {/* Meals */}
       <div className="space-y-4">
-        <MealCard meal={dailyMeals.breakfast} label="Frühstück" emoji="🌅" />
-        <MealCard meal={dailyMeals.lunch}     label="Mittagessen" emoji="☀️" />
-        <MealCard meal={dailyMeals.dinner}    label="Abendessen" emoji="🌙" />
+        <MealCard meal={dailyMeals.breakfast} label="Frühstück"  emoji="🌅" userLevel={userLevel} />
+        <MealCard meal={dailyMeals.lunch}     label="Mittagessen" emoji="☀️" userLevel={userLevel} />
+        <MealCard meal={dailyMeals.dinner}    label="Abendessen"  emoji="🌙" userLevel={userLevel} />
       </div>
 
       {/* Cokidoo Info */}

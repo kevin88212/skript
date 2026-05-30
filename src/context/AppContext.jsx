@@ -31,6 +31,7 @@ export function AppProvider({ children }) {
   const [focusModeActive, setFocusModeActive] = useState(false);
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [googleConnected, setGoogleConnected] = useState(false);
+  const [levelUpEvent, setLevelUpEvent] = useState(null); // { level }
   const [completedWorkoutToday, setCompletedWorkoutToday] = useState(() => {
     const last = localStorage.getItem('last_workout_date');
     return last === new Date().toDateString();
@@ -49,6 +50,10 @@ export function AppProvider({ children }) {
         newXp -= newXpToNext;
         newLevel += 1;
         newXpToNext = Math.floor(newXpToNext * 1.3);
+      }
+      if (newLevel > prev.level) {
+        // Kurz verzögern damit State-Update durch ist
+        setTimeout(() => setLevelUpEvent({ level: newLevel }), 100);
       }
       return { ...prev, xp: newXp, level: newLevel, xpToNext: newXpToNext };
     });
@@ -77,6 +82,7 @@ export function AppProvider({ children }) {
       dailyMeals, refreshMeals,
       focusModeActive, setFocusModeActive,
       completedWorkoutToday,
+      levelUpEvent, setLevelUpEvent,
       calendarEvents, setCalendarEvents,
       googleConnected, setGoogleConnected,
     }}>

@@ -1,11 +1,22 @@
+// unlockLevel: ab welchem Level die Übung freigeschalten wird
+// Level 1 = von Anfang an verfügbar
+
+export const UNLOCK_LEVELS = {
+  1: { label: 'Anfänger',        color: '#34d399', desc: 'Sofort verfügbar' },
+  2: { label: 'Fortschritt',     color: '#22d3ee', desc: 'Level 2 erforderlich' },
+  3: { label: 'Krieger',         color: '#818cf8', desc: 'Level 3 erforderlich' },
+  4: { label: 'Veteran',         color: '#fbbf24', desc: 'Level 4 erforderlich' },
+  5: { label: 'Champion',        color: '#f87171', desc: 'Level 5 erforderlich' },
+};
+
 export const MUSCLE_GROUPS = [
   'Alle', 'Brust', 'Rücken', 'Schultern', 'Arme', 'Beine', 'Bauch', 'Cardio'
 ];
 
 export const DIFFICULTY = {
-  beginner: { label: 'Anfänger', color: '#34d399' },
-  intermediate: { label: 'Mittel', color: '#fbbf24' },
-  advanced: { label: 'Fortgeschritten', color: '#f87171' },
+  beginner:     { label: 'Anfänger',        color: '#34d399' },
+  intermediate: { label: 'Mittel',          color: '#fbbf24' },
+  advanced:     { label: 'Fortgeschritten', color: '#f87171' },
 };
 
 export const exercises = [
@@ -18,6 +29,7 @@ export const exercises = [
     difficulty: 'intermediate',
     sets: '4 × 8–10',
     xp: 120,
+    unlockLevel: 2,
     emoji: '🏋️',
     steps: [
       'Lege dich flach auf die Bank, Füße fest auf dem Boden.',
@@ -37,6 +49,7 @@ export const exercises = [
     difficulty: 'beginner',
     sets: '3 × 15–20',
     xp: 60,
+    unlockLevel: 1,
     emoji: '💪',
     steps: [
       'Hände etwas breiter als schulterbreit, Körper in gerader Linie.',
@@ -56,6 +69,7 @@ export const exercises = [
     difficulty: 'intermediate',
     sets: '3 × 12',
     xp: 80,
+    unlockLevel: 4,
     emoji: '🤸',
     steps: [
       'Lege dich auf die Bank, Kurzhanteln über der Brust.',
@@ -76,6 +90,7 @@ export const exercises = [
     difficulty: 'advanced',
     sets: '4 × 5–6',
     xp: 180,
+    unlockLevel: 4,
     emoji: '⚡',
     steps: [
       'Füße hüftbreit, Stange über dem Mittelfuß.',
@@ -95,6 +110,7 @@ export const exercises = [
     difficulty: 'intermediate',
     sets: '4 × max',
     xp: 140,
+    unlockLevel: 3,
     emoji: '🔝',
     steps: [
       'Hände etwas breiter als schulterbreit (Obergriff).',
@@ -114,6 +130,7 @@ export const exercises = [
     difficulty: 'intermediate',
     sets: '4 × 10',
     xp: 130,
+    unlockLevel: 4,
     emoji: '🚣',
     steps: [
       'Vorbeugen: Rücken gerade, Oberkörper ~45° Winkel.',
@@ -135,6 +152,7 @@ export const exercises = [
     difficulty: 'intermediate',
     sets: '4 × 8',
     xp: 120,
+    unlockLevel: 3,
     emoji: '🎯',
     steps: [
       'Stange auf Schulterhöhe (im Rack), Griff schulterbreit.',
@@ -154,6 +172,7 @@ export const exercises = [
     difficulty: 'beginner',
     sets: '3 × 15',
     xp: 70,
+    unlockLevel: 2,
     emoji: '✈️',
     steps: [
       'Stehend, Kurzhanteln seitlich neben dem Körper.',
@@ -174,6 +193,7 @@ export const exercises = [
     difficulty: 'beginner',
     sets: '3 × 12',
     xp: 70,
+    unlockLevel: 1,
     emoji: '💪',
     steps: [
       'Stehend, Hanteln seitlich, Handflächen zeigen nach vorne.',
@@ -192,6 +212,7 @@ export const exercises = [
     difficulty: 'intermediate',
     sets: '3 × 12',
     xp: 90,
+    unlockLevel: 3,
     emoji: '🔱',
     steps: [
       'Hände auf der Stange, Körper gestreckt.',
@@ -212,6 +233,7 @@ export const exercises = [
     difficulty: 'intermediate',
     sets: '4 × 8–10',
     xp: 160,
+    unlockLevel: 3,
     emoji: '🦵',
     steps: [
       'Stange auf dem oberen Trapez, Füße schulterbreit.',
@@ -231,6 +253,7 @@ export const exercises = [
     difficulty: 'beginner',
     sets: '4 × 12',
     xp: 100,
+    unlockLevel: 2,
     emoji: '🦿',
     steps: [
       'Füße schulterbreit auf der Platte, Mitte der Platte.',
@@ -249,6 +272,7 @@ export const exercises = [
     difficulty: 'intermediate',
     sets: '3 × 10',
     xp: 130,
+    unlockLevel: 4,
     emoji: '🎪',
     steps: [
       'Stehend, Stange vor den Oberschenkeln.',
@@ -270,6 +294,7 @@ export const exercises = [
     difficulty: 'beginner',
     sets: '3 × 30–60 Sek',
     xp: 60,
+    unlockLevel: 1,
     emoji: '🧱',
     steps: [
       'Ellenbogen unter den Schultern, Unterarme auf dem Boden.',
@@ -288,6 +313,7 @@ export const exercises = [
     difficulty: 'beginner',
     sets: '3 × 20',
     xp: 50,
+    unlockLevel: 1,
     emoji: '🌀',
     steps: [
       'Rückenlage, Knie gebeugt, Hände hinter dem Kopf.',
@@ -308,6 +334,7 @@ export const exercises = [
     difficulty: 'beginner',
     sets: '25–45 min',
     xp: 100,
+    unlockLevel: 1,
     emoji: '🏃',
     steps: [
       'Puls zwischen 115–135 BPM halten (Zone 2).',
@@ -327,6 +354,7 @@ export const exercises = [
     difficulty: 'intermediate',
     sets: '20 min',
     xp: 110,
+    unlockLevel: 2,
     emoji: '🚣',
     steps: [
       'Beine strecken zuerst, dann Rücken zurücklehnen.',

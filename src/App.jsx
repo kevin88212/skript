@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { AppProvider, useApp } from './context/AppContext';
 import Navbar from './components/Navbar';
+import LevelUpModal from './components/LevelUpModal';
 import Dashboard from './pages/Dashboard';
 import Workout from './pages/Workout';
 import Meals from './pages/Meals';
@@ -10,7 +12,7 @@ import Profile from './pages/Profile';
 import FocusMode from './pages/FocusMode';
 
 function AppShell() {
-  const { focusModeActive } = useApp();
+  const { focusModeActive, levelUpEvent, setLevelUpEvent } = useApp();
 
   if (focusModeActive) return <FocusMode />;
 
@@ -27,6 +29,15 @@ function AppShell() {
           <Route path="/profile"   element={<Profile />} />
         </Routes>
       </main>
+
+      <AnimatePresence>
+        {levelUpEvent && (
+          <LevelUpModal
+            level={levelUpEvent.level}
+            onClose={() => setLevelUpEvent(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

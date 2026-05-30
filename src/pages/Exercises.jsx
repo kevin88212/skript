@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Plus, Trash2, X } from 'lucide-react';
+import { Search, Plus, Trash2, X, Lock } from 'lucide-react';
 import { exercises as builtinExercises, MUSCLE_GROUPS, DIFFICULTY } from '../data/exercises';
 import { useApp } from '../context/AppContext';
 
@@ -308,11 +308,12 @@ export default function Exercises() {
   const [filter, setFilter] = useState('Alle');
   const [selected, setSelected] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
-  const { gainXP } = useApp();
+  const { gainXP, profile } = useApp();
   const { custom, add, remove } = useCustomExercises();
 
   const allExercises = [...custom, ...builtinExercises];
   const customIds = new Set(custom.map(e => e.id));
+  const userLevel = profile.level;
 
   const filtered = allExercises.filter(e => {
     const matchSearch = e.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -320,6 +321,12 @@ export default function Exercises() {
     const matchFilter = filter === 'Alle' || e.muscle === filter;
     return matchSearch && matchFilter;
   });
+
+  // Freigeschaltete oben, gesperrte unten
+  const sorted = [
+    ...filtered.filter(e => (e.unlockLevel ?? 1) <= userLevel),
+    ...filtered.filter(e => (e.unlockLevel ?? 1) > userLevel),
+  ];
 
   const handleAdd = (ex) => {
     add(ex);
@@ -380,21 +387,37 @@ export default function Exercises() {
 
       {/* Exercise grid */}
       <div className="grid md:grid-cols-2 gap-3">
-        {filtered.map((ex, i) => {
+        {sorted.map((ex, i) => {
           const isCustom = customIds.has(ex.id);
+          const reqLevel = ex.unlockLevel ?? 1;
+          const isLocked = !isCustom && reqLevel > userLevel;
           return (
             <motion.button
               key={ex.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: Math.min(i * 0.04, 0.3) }}
-              onClick={() => { setSelected(ex); if (!isCustom) gainXP(30); }}
-              className={`card-dark rounded-2xl p-4 text-left border transition-all
-                ${isCustom
+              onClick={() => {
+                if (isLocked) return;
+                setSelected(ex);
+                if (!isCustom) gainXP(30);
+              }}
+              className={`card-dark rounded-2xl p-4 text-left border transition-all relative overflow-hidden
+                ${isLocked
+                  ? 'border-gray-700/30 opacity-50 cursor-not-allowed'
+                  : isCustom
                   ? 'border-cyan-500/25 hover:border-cyan-500/50'
                   : 'border-indigo-500/15 hover:border-indigo-500/40'
                 }`}
             >
+              {isLocked && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-950/60 rounded-2xl z-10">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-800/90 border border-gray-700/60">
+                    <Lock size={12} className="text-gray-400" />
+                    <span className="text-xs text-gray-400 font-semibold">Level {reqLevel}</span>
+                  </div>
+                </div>
+              )}
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{ex.emoji}</span>
                 <div className="flex-1 min-w-0">

@@ -12,6 +12,7 @@ export const MEAL_TAGS = {
 const breakfasts = [
   {
     id: 'b1',
+    unlockLevel: 1,
     name: 'Protein-Oats mit Beeren',
     kcal: 420,
     protein: 32,
@@ -38,6 +39,7 @@ const breakfasts = [
   },
   {
     id: 'b2',
+    unlockLevel: 1,
     name: 'Rührei mit Vollkornbrot',
     kcal: 380,
     protein: 28,
@@ -64,6 +66,7 @@ const breakfasts = [
   },
   {
     id: 'b3',
+    unlockLevel: 2,
     name: 'Griechischer Joghurt Bowl',
     kcal: 350,
     protein: 30,
@@ -89,6 +92,7 @@ const breakfasts = [
   },
   {
     id: 'b4',
+    unlockLevel: 3,
     name: 'Avocado Toast mit Spiegelei',
     kcal: 440,
     protein: 20,
@@ -114,6 +118,7 @@ const breakfasts = [
   },
   {
     id: 'b5',
+    unlockLevel: 4,
     name: 'Protein-Pfannkuchen',
     kcal: 460,
     protein: 38,
@@ -142,6 +147,7 @@ const breakfasts = [
 const lunches = [
   {
     id: 'l1',
+    unlockLevel: 1,
     name: 'Hähnchenbrust mit Quinoa & Gemüse',
     kcal: 520,
     protein: 48,
@@ -168,6 +174,7 @@ const lunches = [
   },
   {
     id: 'l2',
+    unlockLevel: 2,
     name: 'Lachs mit Süßkartoffel',
     kcal: 580,
     protein: 42,
@@ -193,6 +200,7 @@ const lunches = [
   },
   {
     id: 'l3',
+    unlockLevel: 1,
     name: 'Türkisches Hackfleisch Bowl',
     kcal: 550,
     protein: 44,
@@ -219,6 +227,7 @@ const lunches = [
   },
   {
     id: 'l4',
+    unlockLevel: 3,
     name: 'Linsen-Eintopf',
     kcal: 480,
     protein: 28,
@@ -245,6 +254,7 @@ const lunches = [
   },
   {
     id: 'l5',
+    unlockLevel: 4,
     name: 'Thunfisch-Pasta',
     kcal: 560,
     protein: 40,
@@ -274,6 +284,7 @@ const lunches = [
 const dinners = [
   {
     id: 'd1',
+    unlockLevel: 1,
     name: 'Gebackener Lachs mit Brokkoli-Reis',
     kcal: 480,
     protein: 42,
@@ -298,6 +309,7 @@ const dinners = [
   },
   {
     id: 'd2',
+    unlockLevel: 2,
     name: 'Hähnchenbrust mit Zucchini-Nudeln',
     kcal: 420,
     protein: 46,
@@ -322,6 +334,7 @@ const dinners = [
   },
   {
     id: 'd3',
+    unlockLevel: 3,
     name: 'Rindfleisch-Gemüse-Pfanne',
     kcal: 490,
     protein: 40,
@@ -347,6 +360,7 @@ const dinners = [
   },
   {
     id: 'd4',
+    unlockLevel: 1,
     name: 'Omelett mit Spinat und Feta',
     kcal: 360,
     protein: 28,
@@ -371,6 +385,7 @@ const dinners = [
   },
   {
     id: 'd5',
+    unlockLevel: 4,
     name: 'Putenbrust mit Ofengemüse',
     kcal: 440,
     protein: 46,
