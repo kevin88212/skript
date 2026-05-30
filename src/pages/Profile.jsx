@@ -19,7 +19,7 @@ const LEVEL_TITLES = [
 ];
 
 export default function Profile({ onLock }) {
-  const { profile, updateProfile } = useApp();
+  const { profile, updateProfile, resetAll } = useApp();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ name: profile.name, weight: profile.weight, height: profile.height, age: profile.age });
   const [notifGranted, setNotifGranted] = useState(isNotificationsGranted());
@@ -260,6 +260,26 @@ export default function Profile({ onLock }) {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Danger Zone */}
+      <div className="card-dark rounded-2xl p-5 border border-red-500/20">
+        <h2 className="text-sm font-semibold text-red-400 uppercase tracking-widest mb-3">⚠️ Neu anfangen</h2>
+        <p className="text-xs text-gray-400 mb-4">
+          Setzt alle Trainingsdaten, Gewichtsverlauf, Fotos, Streak und XP zurück.
+          Der PIN-Schutz bleibt erhalten. Diese Aktion kann <strong className="text-red-400">nicht</strong> rückgängig gemacht werden.
+        </p>
+        <motion.button
+          whileTap={{ scale: 0.97 }}
+          onClick={() => {
+            if (window.confirm('Wirklich alles zurücksetzen? Alle Daten gehen verloren!')) {
+              resetAll();
+            }
+          }}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-semibold hover:bg-red-500/20 transition-all"
+        >
+          🔄 App neu starten
+        </motion.button>
       </div>
     </div>
   );

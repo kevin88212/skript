@@ -273,7 +273,8 @@ function MeasurementsTab() {
 // ── Photos Tab ───────────────────────────────────────────────────────────────
 function PhotosTab() {
   const { progressPhotos, addPhoto, removePhoto } = useApp();
-  const inputRef = useRef(null);
+  const cameraRef = useRef(null);
+  const galleryRef = useRef(null);
   const [label, setLabel] = useState('');
   const [preview, setPreview] = useState(null);
   const [compare, setCompare] = useState([]);
@@ -304,14 +305,23 @@ function PhotosTab() {
     <div className="space-y-4">
       {/* Upload */}
       <div className="card-dark rounded-2xl p-4 border border-indigo-500/20">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-semibold text-white">Fortschrittsfoto</h3>
-          <button onClick={() => inputRef.current?.click()}
-            className="flex items-center gap-1 text-xs text-indigo-400 bg-indigo-500/15 border border-indigo-500/30 px-2.5 py-1 rounded-lg">
-            <Camera size={12} /> Foto hinzufügen
+        <h3 className="text-sm font-semibold text-white mb-3">Fortschrittsfoto</h3>
+
+        {/* Two buttons: camera + gallery */}
+        <div className="flex gap-2 mb-3">
+          <button onClick={() => cameraRef.current?.click()}
+            className="flex-1 flex items-center justify-center gap-1.5 text-xs text-indigo-400 bg-indigo-500/15 border border-indigo-500/30 px-3 py-2.5 rounded-xl hover:bg-indigo-500/25 transition-colors">
+            <Camera size={13} /> Kamera
+          </button>
+          <button onClick={() => galleryRef.current?.click()}
+            className="flex-1 flex items-center justify-center gap-1.5 text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 px-3 py-2.5 rounded-xl hover:bg-cyan-500/20 transition-colors">
+            🖼️ Galerie
           </button>
         </div>
-        <input ref={inputRef} type="file" accept="image/*" capture="user" onChange={handleFile} className="hidden" />
+
+        {/* Hidden inputs */}
+        <input ref={cameraRef} type="file" accept="image/*" capture="environment" onChange={handleFile} className="hidden" />
+        <input ref={galleryRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
         {preview && (
           <div className="space-y-2">
             <img src={preview} alt="preview" className="w-full max-h-48 object-cover rounded-xl" />

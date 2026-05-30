@@ -160,6 +160,17 @@ export function AppProvider({ children }) {
     saveLS('fitness_active_boss', null);
   };
 
+  const resetAll = () => {
+    const keys = [
+      'fitness_profile', 'fitness_weight_history', 'fitness_measurements',
+      'fitness_workout_history', 'fitness_water', 'fitness_daily_challenge',
+      'fitness_photos', 'fitness_active_boss', 'fitness_custom_meals',
+      'last_workout_date', 'health_connected', 'notification_reminder_time',
+    ];
+    keys.forEach(k => localStorage.removeItem(k));
+    window.location.reload();
+  };
+
   // ── Custom meals ──────────────────────────────────────────────────────────
   const addCustomMeal = (meal) => {
     const entry = { ...meal, id: `custom_${Date.now()}`, isCustom: true };
@@ -194,7 +205,7 @@ export function AppProvider({ children }) {
       waterGlasses, drinkWater, resetWater,
       dailyChallenge, completeChallenge,
       progressPhotos, addPhoto, removePhoto,
-      activeBoss, startBoss, defeatBoss, closeBoss,
+      activeBoss, startBoss, defeatBoss, closeBoss, resetAll,
       customMeals, addCustomMeal, removeCustomMeal,
     }}>
       {children}
