@@ -155,6 +155,11 @@ export function AppProvider({ children }) {
     saveLS('fitness_active_boss', null);
   };
 
+  const closeBoss = () => {
+    setActiveBoss(null);
+    saveLS('fitness_active_boss', null);
+  };
+
   // ── Custom meals ──────────────────────────────────────────────────────────
   const addCustomMeal = (meal) => {
     const entry = { ...meal, id: `custom_${Date.now()}`, isCustom: true };
@@ -189,7 +194,7 @@ export function AppProvider({ children }) {
       waterGlasses, drinkWater, resetWater,
       dailyChallenge, completeChallenge,
       progressPhotos, addPhoto, removePhoto,
-      activeBoss, startBoss, defeatBoss,
+      activeBoss, startBoss, defeatBoss, closeBoss,
       customMeals, addCustomMeal, removeCustomMeal,
     }}>
       {children}

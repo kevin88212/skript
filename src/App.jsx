@@ -17,7 +17,7 @@ import FocusMode from './pages/FocusMode';
 import { isSetup, isUnlocked } from './services/auth';
 
 function AppShell({ onLock }) {
-  const { focusModeActive, levelUpEvent, setLevelUpEvent, activeBoss, defeatBoss, setActiveBoss } = useApp();
+  const { focusModeActive, levelUpEvent, setLevelUpEvent, activeBoss, defeatBoss, closeBoss } = useApp();
 
   if (focusModeActive) return <FocusMode />;
 
@@ -44,7 +44,7 @@ function AppShell({ onLock }) {
           <BossFight
             key={activeBoss.id}
             boss={activeBoss}
-            onClose={() => { setActiveBoss(null); }}
+            onClose={closeBoss}
             onVictory={(xp) => defeatBoss(xp)}
           />
         )}
