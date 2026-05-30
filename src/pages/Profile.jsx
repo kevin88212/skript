@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Save, User, Trophy, Flame, Dumbbell, LogOut } from 'lucide-react';
+import { Save, User, Trophy, Flame, Dumbbell, LogOut, Bell, Share2, Copy, Check } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { lock } from '../services/auth';
+import { requestNotificationPermission, isNotificationsGranted, scheduleWorkoutReminder } from '../services/notifications';
 
 const ACHIEVEMENTS = [
   { id: 1, name: 'Erster Schritt', desc: 'App das erste Mal geöffnet', emoji: '👟', unlocked: true },
@@ -21,6 +22,9 @@ export default function Profile({ onLock }) {
   const { profile, updateProfile } = useApp();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ name: profile.name, weight: profile.weight, height: profile.height, age: profile.age });
+  const [notifGranted, setNotifGranted] = useState(isNotificationsGranted());
+  const [reminderTime, setReminderTime] = useState(localStorage.getItem('notification_reminder_time') || '18:00');
+  const [copied, setCopied] = useState(false);
 
   const bmi = (profile.weight / (profile.height / 100) ** 2).toFixed(1);
   const bmiCategory = bmi < 18.5 ? 'Untergewicht' : bmi < 25 ? 'Normalgewicht' : bmi < 30 ? 'Übergewicht' : 'Adipositas';
@@ -31,6 +35,19 @@ export default function Profile({ onLock }) {
   const save = () => {
     updateProfile({ name: form.name, weight: Number(form.weight), height: Number(form.height), age: Number(form.age) });
     setEditing(false);
+  };
+
+  const handleNotif = async () => {
+    const granted = await requestNotificationPermission();
+    setNotifGranted(granted);
+    if (granted) scheduleWorkoutReminder(reminderTime);
+  };
+
+  const handleDuel = () => {
+    const data = { name: profile.name, level: profile.level, workouts: profile.totalWorkouts, streak: profile.streak, weight: profile.weight };
+    const encoded = btoa(JSON.stringify(data));
+    const url = `${window.location.origin}${window.location.pathname}#duel=${encoded}`;
+    navigator.clipboard.writeText(url).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
   };
 
   const tdee = Math.round(10 * profile.weight + 6.25 * profile.height - 5 * profile.age + 5);
@@ -173,6 +190,54 @@ export default function Profile({ onLock }) {
         <div className="mt-3 p-3 rounded-xl bg-indigo-500/10 text-xs text-indigo-200">
           💡 Bei 3× Training/Woche + {deficit} kcal täglich kannst du in 12 Monaten ~19 kg abnehmen.
         </div>
+      </div>
+
+      {/* Notifications */}
+      <div className="card-dark rounded-2xl p-5 border border-indigo-500/20">
+        <div className="flex items-center gap-2 mb-4">
+          <Bell size={16} className="text-indigo-400" />
+          <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-widest">Benachrichtigungen</h2>
+        </div>
+        {notifGranted ? (
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <label className="text-sm text-gray-300 flex-1">Tägliche Erinnerung</label>
+              <input type="time" value={reminderTime}
+                onChange={e => { setReminderTime(e.target.value); scheduleWorkoutReminder(e.target.value); }}
+                className="bg-gray-800 border border-gray-700 rounded-xl px-3 py-1.5 text-white text-sm focus:outline-none focus:border-indigo-500/60"
+              />
+            </div>
+            <p className="text-xs text-neon-green">✓ Benachrichtigungen aktiv</p>
+          </div>
+        ) : (
+          <div>
+            <p className="text-xs text-gray-400 mb-3">Aktiviere tägliche Erinnerungen damit du kein Training verpasst.</p>
+            <button onClick={handleNotif}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-sm font-semibold hover:bg-indigo-500/30 transition-all">
+              <Bell size={14} /> Benachrichtigungen aktivieren
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Friend Duel */}
+      <div className="card-dark rounded-2xl p-5 border border-purple-500/20">
+        <div className="flex items-center gap-2 mb-3">
+          <Share2 size={16} className="text-purple-400" />
+          <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-widest">Freundes-Duell</h2>
+        </div>
+        <p className="text-xs text-gray-400 mb-4">
+          Teile deinen Krieger-Link mit Freunden und vergleicht eure Stats!
+        </p>
+        <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-xs text-purple-200 mb-3 space-y-1">
+          <div className="flex justify-between"><span className="text-gray-400">Level</span><span className="font-bold">{profile.level}</span></div>
+          <div className="flex justify-between"><span className="text-gray-400">Workouts</span><span className="font-bold">{profile.totalWorkouts}</span></div>
+          <div className="flex justify-between"><span className="text-gray-400">Streak</span><span className="font-bold">{profile.streak} Tage</span></div>
+        </div>
+        <motion.button whileTap={{ scale: 0.95 }} onClick={handleDuel}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 text-sm font-semibold hover:bg-purple-500/30 transition-all">
+          {copied ? <><Check size={14} /> Link kopiert!</> : <><Copy size={14} /> Link kopieren</>}
+        </motion.button>
       </div>
 
       {/* Achievements */}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Utensils, RefreshCw, ChevronDown, ChevronUp, ExternalLink, Zap, Lock } from 'lucide-react';
+import { Utensils, RefreshCw, ChevronDown, ChevronUp, ExternalLink, Zap, Lock, Plus, Trash2 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { getTotalMacros, MEAL_TAGS } from '../data/meals';
 
@@ -159,11 +159,84 @@ function MealCard({ meal, label, emoji, userLevel }) {
   );
 }
 
+// ── Custom Meal Card ─────────────────────────────────────────────────────────
+function CustomMealCard({ meal, onDelete }) {
+  return (
+    <div className="card-dark rounded-2xl p-4 border border-cyan-500/20 flex items-start gap-3">
+      <span className="text-2xl shrink-0">{meal.emoji || '🍽️'}</span>
+      <div className="flex-1 min-w-0">
+        <div className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">{meal.mealType || 'Eigenes Rezept'}</div>
+        <div className="font-bold text-white text-sm">{meal.name}</div>
+        <div className="text-xs text-gray-400 mt-0.5">{meal.kcal} kcal · {meal.protein}g P · {meal.carbs}g K · {meal.fat}g F</div>
+        {meal.notes && <div className="text-xs text-gray-500 mt-1">{meal.notes}</div>}
+      </div>
+      <button onClick={() => onDelete(meal.id)} className="text-gray-600 hover:text-red-400 transition-colors shrink-0">
+        <Trash2 size={14} />
+      </button>
+    </div>
+  );
+}
+
+// ── Add Custom Meal Form ─────────────────────────────────────────────────────
+function AddMealForm({ onSave, onCancel }) {
+  const EMOJIS = ['🍳','🥗','🥩','🍝','🥘','🍲','🥙','🌮','🍱','🥪','🍜','🫕'];
+  const [form, setForm] = useState({ name: '', emoji: '🍳', mealType: 'Frühstück', kcal: '', protein: '', carbs: '', fat: '', notes: '' });
+  const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
+
+  const handleSave = () => {
+    if (!form.name.trim() || !form.kcal) return;
+    onSave({ ...form, kcal: Number(form.kcal), protein: Number(form.protein) || 0, carbs: Number(form.carbs) || 0, fat: Number(form.fat) || 0 });
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+      className="card-dark rounded-2xl p-4 border border-indigo-500/30 space-y-3">
+      <h3 className="text-sm font-semibold text-white">Eigenes Rezept hinzufügen</h3>
+
+      {/* Emoji picker */}
+      <div className="flex flex-wrap gap-2">
+        {EMOJIS.map(e => (
+          <button key={e} onClick={() => set('emoji', e)}
+            className={`w-9 h-9 rounded-xl text-xl transition-all ${form.emoji === e ? 'bg-indigo-500/30 border border-indigo-500/60 scale-110' : 'bg-gray-800 border border-gray-700/50'}`}>
+            {e}
+          </button>
+        ))}
+      </div>
+
+      <input value={form.name} onChange={e => set('name', e.target.value)} placeholder="Rezeptname *"
+        className="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500/60" />
+
+      <select value={form.mealType} onChange={e => set('mealType', e.target.value)}
+        className="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500/60">
+        {['Frühstück','Mittagessen','Abendessen','Snack'].map(t => <option key={t}>{t}</option>)}
+      </select>
+
+      <div className="grid grid-cols-2 gap-2">
+        {[['kcal','Kalorien *'],['protein','Protein g'],['carbs','Kohlenhydrate g'],['fat','Fett g']].map(([k,l]) => (
+          <input key={k} type="number" value={form[k]} onChange={e => set(k, e.target.value)} placeholder={l}
+            className="bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500/60" />
+        ))}
+      </div>
+
+      <input value={form.notes} onChange={e => set('notes', e.target.value)} placeholder="Notizen (optional)"
+        className="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500/60" />
+
+      <div className="flex gap-2">
+        <button onClick={handleSave}
+          className="flex-1 py-2.5 rounded-xl bg-indigo-500 text-white text-sm font-semibold">Speichern</button>
+        <button onClick={onCancel}
+          className="px-4 py-2.5 rounded-xl bg-gray-800 text-gray-400 text-sm">Abbrechen</button>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Meals() {
-  const { dailyMeals, refreshMeals, profile } = useApp();
+  const { dailyMeals, refreshMeals, profile, customMeals, addCustomMeal, removeCustomMeal } = useApp();
   const totals = getTotalMacros(dailyMeals);
   const userLevel = profile.level;
   const KCAL_GOAL = 2200;
+  const [showAddForm, setShowAddForm] = useState(false);
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-2xl">
@@ -177,12 +250,9 @@ export default function Meals() {
           <h1 className="text-2xl font-black text-white">Tagesplan</h1>
           <p className="text-gray-400 text-sm">Personalisiert für dein Gewichtsziel</p>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95, rotate: 180 }}
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95, rotate: 180 }}
           onClick={refreshMeals}
-          className="p-3 rounded-xl card-dark border border-cyan-500/30 text-cyan-400 hover:border-cyan-500/60 transition-all"
-        >
+          className="p-3 rounded-xl card-dark border border-cyan-500/30 text-cyan-400 hover:border-cyan-500/60 transition-all">
           <RefreshCw size={18} />
         </motion.button>
       </div>
@@ -196,40 +266,56 @@ export default function Meals() {
             <div className="text-xs text-gray-500">von {KCAL_GOAL} kcal</div>
           </div>
         </div>
-
-        {/* Kcal bar */}
         <div className="h-3 bg-gray-800 rounded-full overflow-hidden mb-4">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${Math.min(100, (totals.kcal / KCAL_GOAL) * 100)}%` }}
+          <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(100, (totals.kcal / KCAL_GOAL) * 100)}%` }}
             className="h-full rounded-full"
-            style={{
-              background: 'linear-gradient(90deg, #22d3ee, #6366f1)',
-              boxShadow: '0 0 10px rgba(34,211,238,0.4)',
-            }}
-          />
+            style={{ background: 'linear-gradient(90deg, #22d3ee, #6366f1)', boxShadow: '0 0 10px rgba(34,211,238,0.4)' }} />
         </div>
-
         <div className="space-y-2">
           <MacroBar label="Protein" value={totals.protein} max={180} color="#f87171" />
           <MacroBar label="Kohlenhydrate" value={totals.carbs} max={220} color="#fbbf24" />
           <MacroBar label="Fett" value={totals.fat} max={80} color="#34d399" />
         </div>
-
         <div className="mt-4 flex items-start gap-2 p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-200">
           <Zap size={14} className="shrink-0 mt-0.5 text-indigo-400" />
-          <span>
-            Ziel: ~2200 kcal/Tag = ca. 500 kcal Defizit für ~0.5 kg Gewichtsverlust pro Woche.
-            Mind. <strong>150g Protein</strong> für Muskelerhalt beim Abnehmen.
-          </span>
+          <span>Ziel: ~2200 kcal/Tag = ca. 500 kcal Defizit für ~0.5 kg Gewichtsverlust pro Woche. Mind. <strong>150g Protein</strong> für Muskelerhalt.</span>
         </div>
       </div>
 
       {/* Meals */}
       <div className="space-y-4">
-        <MealCard meal={dailyMeals.breakfast} label="Frühstück"  emoji="🌅" userLevel={userLevel} />
+        <MealCard meal={dailyMeals.breakfast} label="Frühstück"   emoji="🌅" userLevel={userLevel} />
         <MealCard meal={dailyMeals.lunch}     label="Mittagessen" emoji="☀️" userLevel={userLevel} />
         <MealCard meal={dailyMeals.dinner}    label="Abendessen"  emoji="🌙" userLevel={userLevel} />
+      </div>
+
+      {/* Custom Meals */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-widest">Eigene Rezepte</h2>
+          <button onClick={() => setShowAddForm(v => !v)}
+            className="flex items-center gap-1.5 text-xs text-indigo-400 bg-indigo-500/15 border border-indigo-500/30 px-2.5 py-1 rounded-lg hover:bg-indigo-500/25 transition-colors">
+            <Plus size={12} /> Hinzufügen
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {showAddForm && (
+            <AddMealForm
+              onSave={(meal) => { addCustomMeal(meal); setShowAddForm(false); }}
+              onCancel={() => setShowAddForm(false)}
+            />
+          )}
+        </AnimatePresence>
+
+        <div className="space-y-3 mt-3">
+          {customMeals.length === 0 && !showAddForm && (
+            <p className="text-xs text-gray-600 text-center py-4">Noch keine eigenen Rezepte. Füge dein erstes hinzu!</p>
+          )}
+          {customMeals.map(meal => (
+            <CustomMealCard key={meal.id} meal={meal} onDelete={removeCustomMeal} />
+          ))}
+        </div>
       </div>
 
       {/* Cokidoo Info */}
@@ -239,15 +325,10 @@ export default function Meals() {
           <h3 className="font-semibold text-white text-sm">Cokidoo Integration</h3>
         </div>
         <p className="text-xs text-gray-400 mb-3">
-          Jedes Rezept ist mit Cokidoo verknüpft. Klicke auf „Auf Cokidoo suchen" um das vollständige
-          Rezept mit Schritt-für-Schritt Anleitung zu öffnen.
+          Jedes Rezept ist mit Cokidoo verknüpft. Klicke auf „Auf Cokidoo suchen" um das vollständige Rezept zu öffnen.
         </p>
-        <a
-          href="https://www.cokidoo.de"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
-        >
+        <a href="https://www.cokidoo.de" target="_blank" rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
           <ExternalLink size={12} /> Cokidoo öffnen
         </a>
       </div>

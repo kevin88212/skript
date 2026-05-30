@@ -1,27 +1,25 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Flame, Trophy, Zap, Target, ChevronRight, Lock, Heart, Footprints, Activity } from 'lucide-react';
+import { Flame, Trophy, Zap, Target, ChevronRight, Lock, Heart, Footprints, Activity, Droplets, Sword } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { requestHealthPermissions, getAllHealthData } from '../services/health';
+import { BOSSES } from '../data/bosses';
 
 const bmi = (w, h) => (w / (h / 100) ** 2).toFixed(1);
 
 const quests = [
-  { id: 1, title: 'Erstes Workout', desc: 'Absolviere dein erstes Training', xp: 200, done: false },
-  { id: 2, title: '3 Tage Streak', desc: '3 Tage in Folge trainieren', xp: 300, done: false },
-  { id: 3, title: 'Mahlzeiten tracken', desc: 'Schau dir heute deinen Ernährungsplan an', xp: 50, done: false },
-  { id: 4, title: 'Übungsdatenbank', desc: 'Lerne eine neue Übung kennen', xp: 30, done: false },
+  { id: 1, title: 'Erstes Workout',   desc: 'Absolviere dein erstes Training',         xp: 200 },
+  { id: 2, title: '3 Tage Streak',    desc: '3 Tage in Folge trainieren',              xp: 300 },
+  { id: 3, title: 'Mahlzeiten-Plan',  desc: 'Schau dir heute deinen Ernährungsplan an', xp: 50  },
+  { id: 4, title: 'Übungsdatenbank',  desc: 'Lerne eine neue Übung kennen',            xp: 30  },
 ];
 
 function StatCard({ icon: Icon, label, value, sub, color, glow }) {
   return (
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      className={`card-dark rounded-2xl p-4 ${glow}`}
-    >
+    <motion.div whileHover={{ scale: 1.03 }} className={`card-dark rounded-2xl p-4 ${glow}`}>
       <div className="flex items-center gap-3">
-        <div className={`p-2 rounded-xl`} style={{ background: `${color}20` }}>
+        <div className="p-2 rounded-xl" style={{ background: `${color}20` }}>
           <Icon size={20} style={{ color }} />
         </div>
         <div>
@@ -31,6 +29,106 @@ function StatCard({ icon: Icon, label, value, sub, color, glow }) {
         </div>
       </div>
     </motion.div>
+  );
+}
+
+// ── Water Tracker ────────────────────────────────────────────────────────────
+function WaterTracker() {
+  const { waterGlasses, drinkWater } = useApp();
+  const GOAL = 8;
+  const pct = Math.min(100, (waterGlasses / GOAL) * 100);
+
+  return (
+    <div className="card-dark rounded-2xl p-4 border border-cyan-500/20">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <Droplets size={16} className="text-cyan-400" />
+          <span className="text-sm font-semibold text-white">Wasser</span>
+        </div>
+        <span className="text-xs text-gray-400">{waterGlasses} / {GOAL} Gläser</span>
+      </div>
+
+      <div className="flex gap-1.5 mb-3">
+        {Array.from({ length: GOAL }).map((_, i) => (
+          <motion.button
+            key={i}
+            whileTap={{ scale: 0.85 }}
+            onClick={drinkWater}
+            className="flex-1 h-8 rounded-lg transition-all"
+            style={{ background: i < waterGlasses ? '#22d3ee' : 'rgba(255,255,255,0.06)', boxShadow: i < waterGlasses ? '0 0 8px rgba(34,211,238,0.4)' : 'none' }}
+          />
+        ))}
+      </div>
+
+      <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+        <motion.div animate={{ width: `${pct}%` }} className="h-full rounded-full"
+          style={{ background: 'linear-gradient(90deg, #22d3ee, #6366f1)', boxShadow: '0 0 8px rgba(34,211,238,0.4)' }} />
+      </div>
+      {waterGlasses >= GOAL && (
+        <div className="text-xs text-cyan-400 text-center mt-2 font-semibold">💧 Tagesziel erreicht!</div>
+      )}
+    </div>
+  );
+}
+
+// ── Daily Challenge ──────────────────────────────────────────────────────────
+function DailyChallenge() {
+  const { dailyChallenge, completeChallenge } = useApp();
+  if (!dailyChallenge) return null;
+
+  return (
+    <div className={`card-dark rounded-2xl p-4 border transition-all ${dailyChallenge.done ? 'border-green-500/30' : 'border-amber-500/30'}`}>
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-xs uppercase tracking-widest font-semibold text-neon-amber">⚡ Tägliche Challenge</span>
+      </div>
+      <div className="flex items-start gap-3">
+        <span className="text-2xl shrink-0">{dailyChallenge.emoji}</span>
+        <div className="flex-1 min-w-0">
+          <div className={`font-bold text-sm ${dailyChallenge.done ? 'text-gray-500 line-through' : 'text-white'}`}>
+            {dailyChallenge.title}
+          </div>
+          <div className="text-xs text-gray-400 mt-0.5">{dailyChallenge.desc}</div>
+        </div>
+        <div className="shrink-0 text-right">
+          <div className="text-xs font-bold text-neon-amber mb-1">+{dailyChallenge.xp} XP</div>
+          {!dailyChallenge.done ? (
+            <motion.button whileTap={{ scale: 0.92 }} onClick={completeChallenge}
+              className="text-xs px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold hover:bg-amber-500/30 transition-all">
+              Erledigt!
+            </motion.button>
+          ) : (
+            <span className="text-xs text-neon-green font-semibold">✓ Done</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Boss Selection ───────────────────────────────────────────────────────────
+function BossSection() {
+  const { startBoss } = useApp();
+
+  return (
+    <div className="card-dark rounded-2xl p-4 border border-purple-500/20">
+      <div className="flex items-center gap-2 mb-3">
+        <Sword size={16} className="text-purple-400" />
+        <span className="text-sm font-semibold text-white">Bosskampf</span>
+        <span className="text-xs text-gray-500 ml-auto">Wähle deinen Gegner</span>
+      </div>
+      <div className="flex gap-2 overflow-x-auto pb-1">
+        {BOSSES.map(boss => (
+          <motion.button key={boss.id} whileTap={{ scale: 0.95 }}
+            onClick={() => startBoss(boss)}
+            className="flex flex-col items-center gap-1.5 p-3 rounded-2xl border shrink-0 hover:opacity-90 transition-all min-w-[80px]"
+            style={{ borderColor: `${boss.color}40`, background: `${boss.color}10` }}>
+            <span className="text-2xl">{boss.emoji}</span>
+            <span className="text-xs font-semibold text-white text-center leading-tight">{boss.name}</span>
+            <span className="text-xs font-bold" style={{ color: boss.color }}>+{boss.reward.xp} XP</span>
+          </motion.button>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -48,7 +146,6 @@ export default function Dashboard() {
     if (!granted) return;
     const data = await getAllHealthData();
     setHealth({ ...data, connected: true });
-    // Gewicht automatisch aus Apple Health übernehmen
     if (data.weight && Math.abs(data.weight - profile.weight) > 0.4) {
       updateProfile({ weight: data.weight });
     }
@@ -59,10 +156,8 @@ export default function Dashboard() {
     if (localStorage.getItem('health_connected') === 'true') connectHealth();
   }, []);
 
-  const handleConnectHealth = () => connectHealth();
-
   return (
-    <div className="p-4 md:p-6 space-y-6 max-w-4xl">
+    <div className="p-4 md:p-6 space-y-5 max-w-4xl">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
         <div className="text-xs text-gray-500 uppercase tracking-widest">{today}</div>
@@ -70,44 +165,35 @@ export default function Dashboard() {
           Willkommen zurück, {profile.name}!
         </h1>
         <p className="text-gray-400 text-sm mt-1">
-          Level {profile.level} Krieger · {profile.xp}/{profile.xpToNext} XP bis Level {profile.level + 1}
+          Level {profile.level} · {profile.xp}/{profile.xpToNext} XP
         </p>
       </motion.div>
 
       {/* XP Bar */}
-      <motion.div
-        initial={{ opacity: 0, scaleX: 0 }}
-        animate={{ opacity: 1, scaleX: 1 }}
-        className="w-full h-3 bg-gray-800/80 rounded-full overflow-hidden"
-      >
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${xpPct}%` }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="h-full xp-bar rounded-full"
-        />
-      </motion.div>
+      <div className="w-full h-3 bg-gray-800/80 rounded-full overflow-hidden">
+        <motion.div initial={{ width: 0 }} animate={{ width: `${xpPct}%` }} transition={{ duration: 1, delay: 0.2 }}
+          className="h-full xp-bar rounded-full" />
+      </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatCard icon={Flame}  label="Streak"       value={`${profile.streak}d`}     color="#f97316" glow="glow-amber"  />
-        <StatCard icon={Trophy} label="Workouts"     value={profile.totalWorkouts}     color="#fbbf24" glow=""            />
-        <StatCard icon={Zap}    label="BMI"          value={bmiVal}   sub="Ziel: 24"   color="#818cf8" glow="glow-indigo" />
-        <StatCard icon={Target} label="Gewicht"      value={`${profile.weight} kg`}   color="#22d3ee" glow="glow-cyan"   />
+        <StatCard icon={Flame}  label="Streak"   value={`${profile.streak}d`}   color="#f97316" glow="glow-amber"  />
+        <StatCard icon={Trophy} label="Workouts" value={profile.totalWorkouts}   color="#fbbf24" glow=""            />
+        <StatCard icon={Zap}    label="BMI"      value={bmiVal} sub="Ziel: 24"  color="#818cf8" glow="glow-indigo" />
+        <StatCard icon={Target} label="Gewicht"  value={`${profile.weight} kg`} color="#22d3ee" glow="glow-cyan"   />
       </div>
 
-      {/* Today's Quest / Focus Mode */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="card-dark rounded-2xl p-5 border border-indigo-500/30"
-      >
+      {/* Water + Challenge */}
+      <WaterTracker />
+      <DailyChallenge />
+
+      {/* Today's Mission / Focus Mode */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+        className="card-dark rounded-2xl p-5 border border-indigo-500/30">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
           <span className="text-xs text-indigo-400 uppercase tracking-widest font-medium">Heutige Mission</span>
         </div>
-
         {completedWorkoutToday ? (
           <div className="text-center py-4">
             <div className="text-4xl mb-2">🏆</div>
@@ -117,30 +203,25 @@ export default function Dashboard() {
         ) : (
           <>
             <h2 className="text-xl font-bold text-white mb-1">Trainingstag aktiviert</h2>
-            <p className="text-gray-400 text-sm mb-4">
-              Starte den Focus-Mode – er blockiert Ablenkungen bis du trainiert hast.
-            </p>
-            <div className="flex gap-3">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+            <p className="text-gray-400 text-sm mb-4">Starte den Focus-Mode – er blockiert Ablenkungen bis du trainiert hast.</p>
+            <div className="flex gap-3 flex-wrap">
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                 onClick={() => setFocusModeActive(true)}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-500 text-white font-semibold glow-indigo transition-all"
-              >
-                <Lock size={16} /> Focus Mode starten
+                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-500 text-white font-semibold glow-indigo">
+                <Lock size={16} /> Focus Mode
               </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                 onClick={() => navigate('/workout')}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl border border-indigo-500/40 text-indigo-300 font-semibold hover:bg-indigo-500/10 transition-all"
-              >
-                Training ansehen <ChevronRight size={16} />
+                className="flex items-center gap-2 px-5 py-3 rounded-xl border border-indigo-500/40 text-indigo-300 font-semibold hover:bg-indigo-500/10 transition-all">
+                Training <ChevronRight size={16} />
               </motion.button>
             </div>
           </>
         )}
       </motion.div>
+
+      {/* Boss Fight */}
+      <BossSection />
 
       {/* Quests */}
       <div>
@@ -150,22 +231,12 @@ export default function Dashboard() {
         </div>
         <div className="space-y-2">
           {quests.map((q, i) => (
-            <motion.div
-              key={q.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 * i }}
-              className="card-dark rounded-xl p-4 flex items-center justify-between hover:border-indigo-500/40 transition-all cursor-pointer"
-            >
+            <motion.div key={q.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 * i }}
+              className="card-dark rounded-xl p-4 flex items-center justify-between hover:border-indigo-500/40 transition-all">
               <div className="flex items-center gap-3">
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm
-                  ${q.done ? 'bg-green-500/20 text-neon-green' : 'bg-indigo-500/15 text-indigo-300'}`}>
-                  {q.done ? '✓' : '○'}
-                </div>
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm bg-indigo-500/15 text-indigo-300">○</div>
                 <div>
-                  <div className={`text-sm font-medium ${q.done ? 'text-gray-500 line-through' : 'text-white'}`}>
-                    {q.title}
-                  </div>
+                  <div className="text-sm font-medium text-white">{q.title}</div>
                   <div className="text-xs text-gray-500">{q.desc}</div>
                 </div>
               </div>
@@ -176,88 +247,41 @@ export default function Dashboard() {
       </div>
 
       {/* Apple Health */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-        className="card-dark rounded-2xl p-5 border border-red-500/20"
-      >
+      <div className="card-dark rounded-2xl p-5 border border-red-500/20">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="text-xl">❤️</span>
             <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-widest">Apple Health</h2>
           </div>
           {!health.connected && (
-            <button
-              onClick={handleConnectHealth}
-              className="text-xs px-3 py-1.5 rounded-lg bg-red-500/20 text-red-300 border border-red-500/30 hover:bg-red-500/30 transition-colors"
-            >
+            <button onClick={connectHealth}
+              className="text-xs px-3 py-1.5 rounded-lg bg-red-500/20 text-red-300 border border-red-500/30 hover:bg-red-500/30 transition-colors">
               Verbinden
             </button>
           )}
         </div>
-
         {health.connected ? (
-          <>
-            <div className="grid grid-cols-2 gap-3 text-center mb-3">
-              {[
-                { icon: Footprints, label: 'Schritte heute',   value: health.steps != null ? health.steps.toLocaleString('de-DE') : '–', color: '#34d399' },
-                { icon: Activity,   label: 'Aktive Kalorien',  value: health.calories != null ? `${health.calories} kcal` : '–',          color: '#f87171' },
-                { icon: Heart,      label: 'Ruhepuls (7d ∅)',  value: health.hr != null ? `${health.hr} bpm` : '–',                        color: '#f472b6' },
-                { icon: Zap,        label: 'Distanz heute',    value: health.distance != null ? `${health.distance} km` : '–',             color: '#fbbf24' },
-              ].map(({ icon: Icon, label, value, color }) => (
-                <div key={label} className="rounded-xl p-3" style={{ background: `${color}12` }}>
-                  <Icon size={16} style={{ color }} className="mx-auto mb-1" />
-                  <div className="text-base font-bold text-white">{value}</div>
-                  <div className="text-xs text-gray-500">{label}</div>
-                </div>
-              ))}
-            </div>
-            <div className="text-xs text-gray-600 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
-              Gewicht wird automatisch aus Apple Health synchronisiert
-            </div>
-          </>
-        ) : (
-          <div>
-            <p className="text-xs text-gray-500 mb-3">
-              Verbinde Apple Health um Schritte, Kalorien, Herzfrequenz und Gewicht direkt hier zu sehen.
-              Das Gewicht wird automatisch in dein Profil übernommen.
-            </p>
-            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200">
-              ⚠️ Apple Health ist nur in der nativen iOS-App verfügbar.
-              Führe <code className="bg-black/30 px-1 rounded">bash setup-ios.sh</code> auf deinem Mac aus.
-            </div>
+          <div className="grid grid-cols-2 gap-3 text-center">
+            {[
+              { icon: Footprints, label: 'Schritte',  value: health.steps != null ? health.steps.toLocaleString('de-DE') : '–', color: '#34d399' },
+              { icon: Activity,   label: 'Kalorien',  value: health.calories != null ? `${health.calories} kcal` : '–',          color: '#f87171' },
+              { icon: Heart,      label: 'Ruhepuls',  value: health.hr != null ? `${health.hr} bpm` : '–',                        color: '#f472b6' },
+              { icon: Zap,        label: 'Distanz',   value: health.distance != null ? `${health.distance} km` : '–',             color: '#fbbf24' },
+            ].map(({ icon: Icon, label, value, color }) => (
+              <div key={label} className="rounded-xl p-3" style={{ background: `${color}12` }}>
+                <Icon size={16} style={{ color }} className="mx-auto mb-1" />
+                <div className="text-base font-bold text-white">{value}</div>
+                <div className="text-xs text-gray-500">{label}</div>
+              </div>
+            ))}
           </div>
+        ) : (
+          <p className="text-xs text-gray-500">
+            Verbinde Apple Health um Schritte, Kalorien, Herzfrequenz und Gewicht zu sehen.
+            Nur in der nativen iOS-App verfügbar.
+          </p>
         )}
-      </motion.div>
-
-      {/* Body Stats */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="card-dark rounded-2xl p-5"
-      >
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-lg">📊</span>
-          <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-widest">Deine Statistiken</h2>
-        </div>
-        <div className="grid grid-cols-3 gap-4 text-center">
-          {[
-            { label: 'Gewicht', value: `${profile.weight} kg`, target: '90 kg Ziel' },
-            { label: 'Größe', value: `${profile.height} cm`, target: '' },
-            { label: 'BMI', value: bmiVal, target: 'Ziel: < 25' },
-          ].map(({ label, value, target }) => (
-            <div key={label} className="bg-white/3 rounded-xl p-3">
-              <div className="text-xs text-gray-500 mb-1">{label}</div>
-              <div className="text-xl font-bold text-white">{value}</div>
-              {target && <div className="text-xs text-neon-amber mt-1">{target}</div>}
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-300">
-          💡 Mit 3× Training pro Woche + Kaloriendefizit kannst du in 6 Monaten ~10 kg abnehmen.
-          Du hast das schon mal geschafft – du schaffst es wieder!
-        </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
