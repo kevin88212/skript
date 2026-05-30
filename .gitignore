@@ -1,12 +1,3 @@
 node_modules/
 src/
-public/
-*.config.*
-package*.json
-eslint*
-README*
 dist/
-.vite/
-*.md
-ios-config/
-*.sh
