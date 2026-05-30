@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Save, User, Trophy, Flame, Dumbbell } from 'lucide-react';
+import { Save, User, Trophy, Flame, Dumbbell, LogOut } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { lock } from '../services/auth';
 
 const ACHIEVEMENTS = [
   { id: 1, name: 'Erster Schritt', desc: 'App das erste Mal geöffnet', emoji: '👟', unlocked: true },
@@ -16,7 +17,7 @@ const LEVEL_TITLES = [
   'Newcomer', 'Krieger', 'Kämpfer', 'Veteran', 'Held', 'Champion', 'Legende', 'Unsterblich'
 ];
 
-export default function Profile() {
+export default function Profile({ onLock }) {
   const { profile, updateProfile } = useApp();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ name: profile.name, weight: profile.weight, height: profile.height, age: profile.age });
@@ -46,12 +47,21 @@ export default function Profile() {
           </div>
           <h1 className="text-2xl font-black text-white">Dein Charakter</h1>
         </div>
-        <button
-          onClick={() => editing ? save() : setEditing(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-sm font-semibold hover:bg-indigo-500/30 transition-all"
-        >
-          {editing ? <><Save size={14} /> Speichern</> : '✏️ Bearbeiten'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => editing ? save() : setEditing(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-sm font-semibold hover:bg-indigo-500/30 transition-all"
+          >
+            {editing ? <><Save size={14} /> Speichern</> : '✏️ Bearbeiten'}
+          </button>
+          <button
+            onClick={() => { lock(); onLock?.(); }}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-800 border border-gray-700/60 text-gray-400 text-sm hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400 transition-all"
+            title="App sperren"
+          >
+            <LogOut size={14} />
+          </button>
+        </div>
       </div>
 
       {/* Character card */}
