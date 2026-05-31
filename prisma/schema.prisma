@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  EMPLOYEE
+  ADMIN
+  HAUPTFILIALE
+}
+
+enum OrderStatus {
+  DRAFT
+  SUBMITTED
+  SEEN
+  IN_PROGRESS
+  DONE
+  CANCELLED
+}
+
+model Branch {
+  id        String   @id @default(cuid())
+  name      String
+  location  String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users  User[]
+  orders Order[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(EMPLOYEE)
+  active       Boolean  @default(true)
+  branchId     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  branch Branch? @relation(fields: [branchId], references: [id])
+  orders Order[]
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  name         String
+  categoryId   String
+  unit         String
+  sku          String?
+  active       Boolean  @default(true)
+  sortOrder    Int      @default(0)
+  internalNote String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  category   Category    @relation(fields: [categoryId], references: [id])
+  orderItems OrderItem[]
+}
+
+model Order {
+  id           String      @id @default(cuid())
+  branchId     String
+  userId       String
+  deliveryDate DateTime    @db.Date
+  note         String?
+  status       OrderStatus @default(DRAFT)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  submittedAt  DateTime?
+
+  branch     Branch      @relation(fields: [branchId], references: [id])
+  user       User        @relation(fields: [userId], references: [id])
+  orderItems OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Decimal @db.Decimal(10, 3)
+  unit      String
+  note      String?
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+}
