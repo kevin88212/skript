@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zestly – Frisch. Regional. Blitzschnell.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            zgreen: {
+              50:  '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              900: '#14532d',
+            },
+            zorange: {
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .gradient-hero {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 40%, #fff7ed 100%);
+    }
+    .card-hover {
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.1);
+    }
+    .badge-pulse {
+      animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite;
+    }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fade-up .7s ease forwards; }
+    .fade-up-delay { animation: fade-up .7s ease .2s both; }
+    .fade-up-delay2 { animation: fade-up .7s ease .4s both; }
+  </style>
+</head>
+<body class="font-sans bg-white text-gray-900 antialiased">
+
+<!-- ===== NAVBAR ===== -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">🥬</span>
+      <span class="text-xl font-black text-zgreen-700 tracking-tight">Zestly</span>
+    </div>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+      <a href="#wie-es-funktioniert" class="hover:text-zgreen-600 transition-colors">Wie's funktioniert</a>
+      <a href="#sortiment" class="hover:text-zgreen-600 transition-colors">Sortiment</a>
+      <a href="#liefergebiet" class="hover:text-zgreen-600 transition-colors">Liefergebiet</a>
+      <a href="#partner" class="hover:text-zgreen-600 transition-colors">Partner</a>
+    </div>
+    <a href="#fruehzugang" class="bg-zgreen-600 hover:bg-zgreen-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors shadow-sm">
+      Frühjahrs-Zugang sichern
+    </a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="gradient-hero pt-32 pb-20 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col lg:flex-row items-center gap-12">
+
+      <!-- Text -->
+      <div class="flex-1 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 bg-zgreen-100 text-zgreen-700 text-xs font-bold px-3 py-1.5 rounded-full mb-6 badge-pulse fade-up">
+          <span class="w-2 h-2 bg-zgreen-500 rounded-full"></span>
+          Bald in deiner Region verfügbar
+        </div>
+        <h1 class="text-5xl sm:text-6xl font-black leading-tight tracking-tight mb-6 fade-up-delay">
+          Dein regionales<br>
+          <span class="text-zgreen-600">Frische-Abo.</span><br>
+          <span class="text-zorange-500">Direkt zu dir.</span>
+        </h1>
+        <p class="text-lg text-gray-600 max-w-lg mx-auto lg:mx-0 mb-8 fade-up-delay2">
+          Zestly liefert frische, lokale Produkte von Bauern und Händlern aus deiner Umgebung — schnell, nachhaltig und immer saisonal.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start fade-up-delay2">
+          <a href="#fruehzugang" class="bg-zgreen-600 hover:bg-zgreen-700 text-white font-bold px-8 py-4 rounded-2xl text-lg transition-all shadow-lg hover:shadow-zgreen-200 hover:shadow-xl">
+            Jetzt vormerken ✨
+          </a>
+          <a href="#wie-es-funktioniert" class="bg-white hover:bg-gray-50 text-gray-800 font-semibold px-8 py-4 rounded-2xl text-lg transition-all border border-gray-200 shadow-sm">
+            Mehr erfahren →
+          </a>
+        </div>
+        <!-- Social proof -->
+        <div class="mt-8 flex items-center gap-4 justify-center lg:justify-start text-sm text-gray-500">
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full bg-zgreen-200 border-2 border-white flex items-center justify-center text-xs">👩</div>
+            <div class="w-8 h-8 rounded-full bg-zorange-100 border-2 border-white flex items-center justify-center text-xs">👨</div>
+            <div class="w-8 h-8 rounded-full bg-zgreen-100 border-2 border-white flex items-center justify-center text-xs">👩</div>
+          </div>
+          <span><strong class="text-gray-800">47+ Personen</strong> haben sich bereits vorgemerkt</span>
+        </div>
+      </div>
+
+      <!-- Illustration / Mockup -->
+      <div class="flex-1 flex justify-center">
+        <div class="relative w-72 sm:w-80">
+          <!-- Phone mockup -->
+          <div class="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden p-1">
+            <div class="bg-zgreen-50 rounded-[2.2rem] p-5">
+              <!-- App header -->
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <p class="text-xs text-gray-500">Guten Morgen,</p>
+                  <p class="font-bold text-gray-900">Deine Lieferung</p>
+                </div>
+                <span class="text-2xl">🥬</span>
+              </div>
+              <!-- Delivery card -->
+              <div class="bg-white rounded-2xl p-4 shadow-sm mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 bg-zgreen-100 rounded-xl flex items-center justify-center text-2xl">🥕</div>
+                  <div>
+                    <p class="font-semibold text-sm">Gemüsekiste Classic</p>
+                    <p class="text-xs text-gray-500">5 saisonale Produkte</p>
+                  </div>
+                  <span class="ml-auto text-zgreen-600 font-bold text-sm">19,90 €</span>
+                </div>
+              </div>
+              <!-- Status bar -->
+              <div class="bg-zgreen-600 rounded-xl p-3 text-white">
+                <p class="text-xs opacity-80 mb-1">Lieferstatus</p>
+                <div class="flex items-center gap-2">
+                  <div class="flex gap-1">
+                    <div class="w-2 h-2 rounded-full bg-white"></div>
+                    <div class="w-2 h-2 rounded-full bg-white"></div>
+                    <div class="w-2 h-2 rounded-full bg-white/40"></div>
+                  </div>
+                  <p class="text-sm font-semibold">Unterwegs zu dir 🚴</p>
+                </div>
+              </div>
+              <!-- Products grid -->
+              <div class="grid grid-cols-3 gap-2 mt-3">
+                <div class="bg-white rounded-xl p-2 text-center shadow-sm">
+                  <div class="text-2xl mb-1">🍅</div>
+                  <p class="text-xs font-medium">Tomaten</p>
+                  <p class="text-xs text-gray-500">lokal</p>
+                </div>
+                <div class="bg-white rounded-xl p-2 text-center shadow-sm">
+                  <div class="text-2xl mb-1">🥦</div>
+                  <p class="text-xs font-medium">Brokkoli</p>
+                  <p class="text-xs text-gray-500">bio</p>
+                </div>
+                <div class="bg-white rounded-xl p-2 text-center shadow-sm">
+                  <div class="text-2xl mb-1">🧀</div>
+                  <p class="text-xs font-medium">Käse</p>
+                  <p class="text-xs text-gray-500">Hofkäserei</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Floating badges -->
+          <div class="absolute -top-3 -right-3 bg-zorange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+            ⚡ 2h Lieferung
+          </div>
+          <div class="absolute -bottom-3 -left-3 bg-white border border-gray-100 text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg text-zgreen-700">
+            🌿 100% regional
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== USP LEISTE ===== -->
+<section class="bg-zgreen-600 py-5">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="flex flex-wrap justify-center gap-8 text-white text-sm font-medium">
+      <div class="flex items-center gap-2"><span>🚴</span> Lieferung in 2h</div>
+      <div class="flex items-center gap-2"><span>🌿</span> 100% aus der Region</div>
+      <div class="flex items-center gap-2"><span>🤝</span> Lokale Erzeuger</div>
+      <div class="flex items-center gap-2"><span>♻️</span> Nachhaltig verpackt</div>
+      <div class="flex items-center gap-2"><span>📅</span> Flexibles Abo</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WIE ES FUNKTIONIERT ===== -->
+<section id="wie-es-funktioniert" class="py-24 px-4 bg-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="text-zgreen-600 font-semibold text-sm uppercase tracking-widest mb-2">So einfach geht's</p>
+      <h2 class="text-4xl font-black">3 Schritte zur Frischekiste</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="text-center card-hover">
+        <div class="w-20 h-20 bg-zgreen-50 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6 shadow-sm">
+          📱
+        </div>
+        <div class="inline-block bg-zgreen-100 text-zgreen-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Schritt 1</div>
+        <h3 class="text-xl font-bold mb-3">Kiste wählen</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">Wähle deine Wunsch-Kiste — Gemüse, Obst, Milchprodukte oder unser Kombiangebot. Jederzeit anpassbar.</p>
+      </div>
+      <div class="text-center card-hover">
+        <div class="w-20 h-20 bg-zorange-50 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6 shadow-sm">
+          📍
+        </div>
+        <div class="inline-block bg-zorange-100 text-zorange-600 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Schritt 2</div>
+        <h3 class="text-xl font-bold mb-3">Adresse eingeben</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">Gib deine Lieferadresse ein und wähle deinen Wunschtermin. Wir liefern täglich von 8–20 Uhr.</p>
+      </div>
+      <div class="text-center card-hover">
+        <div class="w-20 h-20 bg-zgreen-50 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6 shadow-sm">
+          🎉
+        </div>
+        <div class="inline-block bg-zgreen-100 text-zgreen-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Schritt 3</div>
+        <h3 class="text-xl font-bold mb-3">Genießen!</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">Innerhalb von 2 Stunden steht deine frische Kiste an der Tür. Direkt vom Erzeuger zu dir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SORTIMENT ===== -->
+<section id="sortiment" class="py-24 px-4 bg-gray-50">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="text-zgreen-600 font-semibold text-sm uppercase tracking-widest mb-2">Was wir liefern</p>
+      <h2 class="text-4xl font-black">Unser Sortiment</h2>
+      <p class="text-gray-600 mt-3 max-w-xl mx-auto">Alles saisonal, alles regional — von Bauernhöfen und Händlern direkt aus deiner Umgebung.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Card -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm card-hover border border-gray-100">
+        <div class="text-4xl mb-4">🥕</div>
+        <h3 class="font-bold text-lg mb-2">Gemüsekisten</h3>
+        <p class="text-gray-600 text-sm mb-4">Saisonales Gemüse von regionalen Bauernhöfen. Klein (3 Sorten) bis Groß (8+ Sorten).</p>
+        <div class="flex items-center justify-between">
+          <span class="text-zgreen-600 font-bold">ab 14,90 €</span>
+          <span class="bg-zgreen-50 text-zgreen-700 text-xs font-semibold px-2.5 py-1 rounded-full">Bestseller</span>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-sm card-hover border border-gray-100">
+        <div class="text-4xl mb-4">🍎</div>
+        <h3 class="font-bold text-lg mb-2">Obstkisten</h3>
+        <p class="text-gray-600 text-sm mb-4">Frisches Obst der Saison — unbehandelt und direkt vom Obstbauern.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-zgreen-600 font-bold">ab 12,90 €</span>
+          <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2.5 py-1 rounded-full">Beliebt</span>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-sm card-hover border border-gray-100">
+        <div class="text-4xl mb-4">🧀</div>
+        <h3 class="font-bold text-lg mb-2">Molkerei & Käse</h3>
+        <p class="text-gray-600 text-sm mb-4">Milch, Joghurt, Butter und Käse von lokalen Hofkäsereien.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-zgreen-600 font-bold">ab 9,90 €</span>
+          <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2.5 py-1 rounded-full">Neu</span>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-sm card-hover border border-gray-100">
+        <div class="text-4xl mb-4">🍞</div>
+        <h3 class="font-bold text-lg mb-2">Bäckerei & Brot</h3>
+        <p class="text-gray-600 text-sm mb-4">Handwerklich gebackenes Brot und Gebäck von lokalen Bäckereien. Morgens gebacken, mittags bei dir.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-zgreen-600 font-bold">ab 6,90 €</span>
+          <span class="bg-zorange-50 text-zorange-600 text-xs font-semibold px-2.5 py-1 rounded-full">Frisch täglich</span>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-sm card-hover border border-gray-100">
+        <div class="text-4xl mb-4">🌿</div>
+        <h3 class="font-bold text-lg mb-2">Bio-Kräuter & Gewürze</h3>
+        <p class="text-gray-600 text-sm mb-4">Frische Kräuter und regionale Gewürze — direkt aus dem Kräutergarten.</p>
+        <div class="flex items-center justify-between">
+          <span class="text-zgreen-600 font-bold">ab 4,90 €</span>
+          <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2.5 py-1 rounded-full">Ergänzung</span>
+        </div>
+      </div>
+      <div class="bg-zgreen-600 rounded-2xl p-6 shadow-sm card-hover text-white">
+        <div class="text-4xl mb-4">🎁</div>
+        <h3 class="font-bold text-lg mb-2">Zestly Kombi-Kiste</h3>
+        <p class="text-zgreen-100 text-sm mb-4">Das Beste aus allem: Gemüse + Obst + eine Überraschung der Woche. Unser meistbestelltes Abo.</p>
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-white">ab 24,90 €</span>
+          <span class="bg-white/20 text-white text-xs font-semibold px-2.5 py-1 rounded-full">Top-Tipp</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LIEFERGEBIET ===== -->
+<section id="liefergebiet" class="py-24 px-4 bg-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col lg:flex-row items-center gap-16">
+      <!-- Map placeholder -->
+      <div class="flex-1 w-full">
+        <div class="bg-zgreen-50 rounded-3xl p-8 border border-zgreen-100 relative overflow-hidden min-h-64 flex items-center justify-center">
+          <!-- Decorative map-like circles -->
+          <div class="absolute inset-0 flex items-center justify-center opacity-20">
+            <div class="w-72 h-72 border-2 border-zgreen-400 rounded-full"></div>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center opacity-15">
+            <div class="w-48 h-48 border-2 border-zgreen-500 rounded-full"></div>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center opacity-10">
+            <div class="w-24 h-24 bg-zgreen-400 rounded-full"></div>
+          </div>
+          <!-- Center pin -->
+          <div class="relative z-10 text-center">
+            <div class="w-16 h-16 bg-zgreen-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg">
+              📍
+            </div>
+            <p class="font-bold text-zgreen-800 text-lg">Deine Region</p>
+            <p class="text-zgreen-600 text-sm">Radius ca. 20 km</p>
+          </div>
+          <!-- Zone tags -->
+          <div class="absolute top-4 right-4 bg-white rounded-xl px-3 py-2 shadow-sm text-xs font-semibold text-zgreen-700 border border-zgreen-100">
+            🟢 Kerngebiet
+          </div>
+          <div class="absolute bottom-4 left-4 bg-white rounded-xl px-3 py-2 shadow-sm text-xs font-semibold text-yellow-700 border border-yellow-100">
+            🟡 Erweiterung Q3
+          </div>
+        </div>
+      </div>
+      <!-- Text -->
+      <div class="flex-1">
+        <p class="text-zgreen-600 font-semibold text-sm uppercase tracking-widest mb-2">Wo wir liefern</p>
+        <h2 class="text-4xl font-black mb-6">Hyper-regional.<br>Direkt vor Ort.</h2>
+        <p class="text-gray-600 mb-8">Wir starten mit einem festen Lieferkorridor und wachsen mit unserer Community. Je mehr Nachbarn mitmachen, desto größer unser Radius.</p>
+        <div class="space-y-4">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-zgreen-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🏘️</div>
+            <div>
+              <p class="font-semibold">Startgebiet (Phase 1)</p>
+              <p class="text-gray-600 text-sm">Stadtgebiet + direktes Umland (bis 10 km)</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-zorange-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🌄</div>
+            <div>
+              <p class="font-semibold">Erweiterungsgebiet (Q3 2025)</p>
+              <p class="text-gray-600 text-sm">Umlandgemeinden im 20-km-Radius</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-zgreen-100 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🏢</div>
+            <div>
+              <p class="font-semibold">Business-Lieferung</p>
+              <p class="text-gray-600 text-sm">Büros & Unternehmen im Kerngebiet — auch auf Rechnung</p>
+            </div>
+          </div>
+        </div>
+        <a href="#fruehzugang" class="inline-block mt-8 bg-zgreen-600 hover:bg-zgreen-700 text-white font-bold px-6 py-3 rounded-xl transition-colors">
+          Verfügbarkeit prüfen →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS / ZAHLEN ===== -->
+<section class="py-20 bg-gray-50 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="grid sm:grid-cols-3 gap-6 text-center">
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+        <p class="text-5xl font-black text-zgreen-600 mb-2">47+</p>
+        <p class="text-gray-700 font-semibold">Vorregistrierungen</p>
+        <p class="text-gray-500 text-sm mt-1">in den ersten 2 Wochen</p>
+      </div>
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+        <p class="text-5xl font-black text-zorange-500 mb-2">12</p>
+        <p class="text-gray-700 font-semibold">Lokale Partner</p>
+        <p class="text-gray-500 text-sm mt-1">Bauern & Erzeuger an Board</p>
+      </div>
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+        <p class="text-5xl font-black text-zgreen-600 mb-2">2h</p>
+        <p class="text-gray-700 font-semibold">Lieferzeit</p>
+        <p class="text-gray-500 text-sm mt-1">von der Bestellung zur Tür</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BNI PARTNER SECTION ===== -->
+<section id="partner" class="py-24 px-4 bg-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="bg-gradient-to-br from-zgreen-600 to-zgreen-700 rounded-3xl p-10 sm:p-14 text-white relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute right-0 top-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/4"></div>
+      <div class="absolute left-0 bottom-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4"></div>
+
+      <div class="relative z-10 max-w-3xl">
+        <div class="inline-flex items-center gap-2 bg-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-full mb-6">
+          🤝 Für Geschäftspartner & Netzwerker
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black mb-5">
+          Gemeinsam wachsen.<br>Gemeinsam profitieren.
+        </h2>
+        <p class="text-zgreen-100 text-lg mb-8 max-w-xl">
+          Ob Gastronom, Feinkosthändler, Büro oder Eventplaner — wir suchen lokale Partner, die mit uns die Region stärken.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-5 mb-10">
+          <div class="bg-white/10 rounded-2xl p-5">
+            <div class="text-3xl mb-3">🏪</div>
+            <h3 class="font-bold text-lg mb-2">Erzeuger & Lieferanten</h3>
+            <p class="text-zgreen-100 text-sm">Biete deine Produkte im Zestly-Sortiment an. Direkt, ohne Mittelsmann, mit fairer Vergütung.</p>
+          </div>
+          <div class="bg-white/10 rounded-2xl p-5">
+            <div class="text-3xl mb-3">🏢</div>
+            <h3 class="font-bold text-lg mb-2">Business-Kunden</h3>
+            <p class="text-zgreen-100 text-sm">Frische Zutaten fürs Büro, Restaurant oder Event. Regelmäßige Lieferung auf Rechnung möglich.</p>
+          </div>
+          <div class="bg-white/10 rounded-2xl p-5">
+            <div class="text-3xl mb-3">💼</div>
+            <h3 class="font-bold text-lg mb-2">Vertriebspartner</h3>
+            <p class="text-zgreen-100 text-sm">Empfiehl Zestly und verdiene attraktive Provisionen für jeden gewonnenen Neukunden.</p>
+          </div>
+          <div class="bg-white/10 rounded-2xl p-5">
+            <div class="text-3xl mb-3">📣</div>
+            <h3 class="font-bold text-lg mb-2">Community-Builder</h3>
+            <p class="text-zgreen-100 text-sm">Als lokaler Botschafter bekommst du exklusive Vorteile und hilfst, deine Region zu stärken.</p>
+          </div>
+        </div>
+        <a href="#fruehzugang" class="inline-flex items-center gap-2 bg-white text-zgreen-700 font-bold px-8 py-4 rounded-2xl hover:bg-zgreen-50 transition-colors text-lg shadow-lg">
+          Jetzt Partner werden →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FRÜHJAHRS-ZUGANG ===== -->
+<section id="fruehzugang" class="py-24 px-4 bg-zgreen-50">
+  <div class="max-w-2xl mx-auto text-center">
+    <div class="inline-flex items-center gap-2 bg-zgreen-100 text-zgreen-700 text-xs font-bold px-3 py-1.5 rounded-full mb-6">
+      🌱 Early Access — Limitierte Plätze
+    </div>
+    <h2 class="text-4xl font-black mb-5">Sei einer der Ersten.<br>Für 0 € vormerken.</h2>
+    <p class="text-gray-600 text-lg mb-8">
+      Trage dich jetzt ein und sichere dir 20% Rabatt auf deine erste Bestellung sowie den exklusiven Frühjahrs-Begrüßungskorb.
+    </p>
+
+    <!-- Form -->
+    <div class="bg-white rounded-3xl p-8 shadow-lg border border-zgreen-100 mb-6">
+      <div class="space-y-4">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <input
+            type="text"
+            placeholder="Vorname"
+            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-zgreen-500 focus:ring-2 focus:ring-zgreen-100 text-sm transition-all"
+          />
+          <input
+            type="text"
+            placeholder="Nachname"
+            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-zgreen-500 focus:ring-2 focus:ring-zgreen-100 text-sm transition-all"
+          />
+        </div>
+        <input
+          type="email"
+          placeholder="Deine E-Mail-Adresse"
+          class="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-zgreen-500 focus:ring-2 focus:ring-zgreen-100 text-sm transition-all"
+        />
+        <input
+          type="text"
+          placeholder="Postleitzahl (Lieferadresse)"
+          class="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-zgreen-500 focus:ring-2 focus:ring-zgreen-100 text-sm transition-all"
+        />
+        <select class="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-zgreen-500 focus:ring-2 focus:ring-zgreen-100 text-sm text-gray-600 transition-all">
+          <option value="">Ich interessiere mich als …</option>
+          <option>Privatkunde (Abo für zuhause)</option>
+          <option>Business-Kunde (Büro / Gastronomie)</option>
+          <option>Erzeuger / Lieferant</option>
+          <option>Vertriebspartner</option>
+        </select>
+        <button
+          onclick="handleSignup()"
+          class="w-full bg-zgreen-600 hover:bg-zgreen-700 text-white font-bold py-4 rounded-xl text-lg transition-all shadow-md hover:shadow-lg active:scale-95"
+        >
+          Jetzt kostenlos vormerken lassen 🎉
+        </button>
+      </div>
+      <p class="text-xs text-gray-400 mt-4">Kein Spam. Kein Abo. Jederzeit abmeldbar.</p>
+    </div>
+
+    <!-- Benefits -->
+    <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+      <div class="flex items-center gap-1.5"><span class="text-zgreen-500">✓</span> 20% Willkommensrabatt</div>
+      <div class="flex items-center gap-1.5"><span class="text-zgreen-500">✓</span> Gratis Begrüßungskorb</div>
+      <div class="flex items-center gap-1.5"><span class="text-zgreen-500">✓</span> Exklusiver Early Access</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-gray-900 text-gray-400 py-16 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-start gap-10 mb-10">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="text-2xl">🥬</span>
+          <span class="text-xl font-black text-white">Zestly</span>
+        </div>
+        <p class="text-sm max-w-xs leading-relaxed">
+          Frische, regionale Produkte direkt zu dir — schnell, nachhaltig und mit Herz.
+        </p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm">
+        <div>
+          <p class="text-white font-semibold mb-3">Produkt</p>
+          <div class="space-y-2">
+            <a href="#sortiment" class="block hover:text-white transition-colors">Sortiment</a>
+            <a href="#wie-es-funktioniert" class="block hover:text-white transition-colors">Wie's funktioniert</a>
+            <a href="#liefergebiet" class="block hover:text-white transition-colors">Liefergebiet</a>
+          </div>
+        </div>
+        <div>
+          <p class="text-white font-semibold mb-3">Partner</p>
+          <div class="space-y-2">
+            <a href="#partner" class="block hover:text-white transition-colors">Erzeuger werden</a>
+            <a href="#partner" class="block hover:text-white transition-colors">Vertriebspartner</a>
+            <a href="#partner" class="block hover:text-white transition-colors">B2B / Business</a>
+          </div>
+        </div>
+        <div>
+          <p class="text-white font-semibold mb-3">Kontakt</p>
+          <div class="space-y-2">
+            <a href="mailto:hallo@zestly.de" class="block hover:text-white transition-colors">hallo@zestly.de</a>
+            <a href="tel:+49000000000" class="block hover:text-white transition-colors">Noch nicht aktiv</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+      <p>© 2025 Zestly. Alle Rechte vorbehalten.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-white transition-colors">Datenschutz</a>
+        <a href="#" class="hover:text-white transition-colors">Impressum</a>
+        <a href="#" class="hover:text-white transition-colors">AGB</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== SUCCESS MODAL ===== -->
+<div id="successModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-3xl p-10 max-w-md w-full text-center shadow-2xl">
+    <div class="text-6xl mb-5">🎉</div>
+    <h3 class="text-2xl font-black mb-3">Du bist dabei!</h3>
+    <p class="text-gray-600 mb-6">Wir melden uns, sobald Zestly in deiner Region startet. Danke, dass du dabei bist!</p>
+    <button onclick="document.getElementById('successModal').classList.add('hidden')" class="bg-zgreen-600 text-white font-bold px-8 py-3 rounded-xl hover:bg-zgreen-700 transition-colors">
+      Super, bin gespannt!
+    </button>
+  </div>
+</div>
+
+<script>
+  function handleSignup() {
+    const modal = document.getElementById('successModal');
+    modal.classList.remove('hidden');
+  }
+
+  // Smooth active states for nav
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelectorAll('nav a').forEach(n => n.classList.remove('text-zgreen-600'));
+    });
+  });
+</script>
+
+</body>
+</html>
