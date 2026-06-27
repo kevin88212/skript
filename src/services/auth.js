@@ -1,6 +1,6 @@
 // PIN wird mit SHA-256 gehasht – nie im Klartext gespeichert
 async function hashPin(pin) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pin + 'fitquest_salt'));
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pin + 'funke_salt'));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
@@ -41,5 +41,9 @@ export function resetAuth() {
 }
 
 export function getAuthName() {
-  return localStorage.getItem('auth_name') || 'Krieger';
+  return localStorage.getItem('auth_name') || 'du';
+}
+
+export function setAuthName(name) {
+  localStorage.setItem('auth_name', name);
 }

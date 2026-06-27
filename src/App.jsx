@@ -1,54 +1,28 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
-import { AppProvider, useApp } from './context/AppContext';
+import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
-import LevelUpModal from './components/LevelUpModal';
-import BossFight from './components/BossFight';
 import LoginScreen from './pages/LoginScreen';
 import Dashboard from './pages/Dashboard';
-import Workout from './pages/Workout';
-import Meals from './pages/Meals';
-import Calendar from './pages/Calendar';
-import Exercises from './pages/Exercises';
-import Profile from './pages/Profile';
-import Progress from './pages/Progress';
-import FocusMode from './pages/FocusMode';
+import EyeContactTrainer from './pages/EyeContactTrainer';
+import StarterLibrary from './pages/StarterLibrary';
+import ChatPractice from './pages/ChatPractice';
+import Settings from './pages/Settings';
 import { isSetup, isUnlocked } from './services/auth';
 
 function AppShell({ onLock }) {
-  const { focusModeActive, levelUpEvent, setLevelUpEvent, activeBoss, defeatBoss, closeBoss } = useApp();
-
-  if (focusModeActive) return <FocusMode />;
-
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-950">
       <Navbar />
       <main className="flex-1 pb-24 md:pb-6 overflow-y-auto">
         <Routes>
-          <Route path="/"          element={<Dashboard />} />
-          <Route path="/workout"   element={<Workout />} />
-          <Route path="/meals"     element={<Meals />} />
-          <Route path="/calendar"  element={<Calendar />} />
-          <Route path="/exercises" element={<Exercises />} />
-          <Route path="/progress"  element={<Progress />} />
-          <Route path="/profile"   element={<Profile onLock={onLock} />} />
+          <Route path="/"              element={<Dashboard />} />
+          <Route path="/augenkontakt"  element={<EyeContactTrainer />} />
+          <Route path="/bibliothek"    element={<StarterLibrary />} />
+          <Route path="/uebungspartner" element={<ChatPractice />} />
+          <Route path="/einstellungen" element={<Settings onLock={onLock} />} />
         </Routes>
       </main>
-
-      <AnimatePresence>
-        {levelUpEvent && (
-          <LevelUpModal level={levelUpEvent.level} onClose={() => setLevelUpEvent(null)} />
-        )}
-        {activeBoss && (
-          <BossFight
-            key={activeBoss.id}
-            boss={activeBoss}
-            onClose={closeBoss}
-            onVictory={(xp) => defeatBoss(xp)}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }
@@ -60,7 +34,7 @@ export default function App() {
   if (!authed) return <LoginScreen onAuthenticated={() => setAuthed(true)} />;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppProvider>
         <AppShell onLock={handleLock} />
       </AppProvider>

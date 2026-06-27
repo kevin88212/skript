@@ -1,14 +1,14 @@
 {
-  "name": "FitQuest RPG",
-  "short_name": "FitQuest",
-  "description": "Dein persönlicher Fitness-Coach als Videospiel",
+  "name": "Funke",
+  "short_name": "Funke",
+  "description": "Dein persönlicher Trainer für Augenkontakt, Gesprächseinstieg und Selbstvertrauen",
   "start_url": "/skript/",
   "scope": "/skript/",
   "display": "standalone",
   "background_color": "#050508",
-  "theme_color": "#6366f1",
+  "theme_color": "#fb7185",
   "orientation": "portrait-primary",
-  "categories": ["health", "fitness", "lifestyle"],
+  "categories": ["lifestyle", "education"],
   "icons": [
     {
       "src": "/skript/icons/icon-192.png",

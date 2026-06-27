@@ -1,4 +1,4 @@
-const CACHE = 'fitquest-v1';
+const CACHE = 'funke-v1';
 const ASSETS = [
   '/skript/',
   '/skript/index.html',

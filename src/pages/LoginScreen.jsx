@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sword, Shield, AlertTriangle } from 'lucide-react';
+import { Sparkles, Shield, AlertTriangle } from 'lucide-react';
 import { setupAuth, verifyPin, isSetup, unlock, resetAuth } from '../services/auth';
 
 const PIN_LENGTH = 4;
@@ -17,7 +17,7 @@ function PinDots({ value, maxLen, shake }) {
           key={i}
           className={`w-4 h-4 rounded-full transition-all duration-200 ${
             i < value.length
-              ? 'bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]'
+              ? 'bg-violet-400 shadow-[0_0_12px_rgba(167,139,250,0.8)]'
               : 'bg-gray-700 border border-gray-600'
           }`}
         />
@@ -42,7 +42,7 @@ function Numpad({ onPress, onDelete, disabled }) {
             className={`h-14 rounded-2xl text-xl font-bold transition-all
               ${isDelete
                 ? 'bg-gray-800 border border-gray-700 text-gray-400 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400'
-                : 'bg-gray-800/80 border border-gray-700/60 text-white hover:bg-indigo-500/20 hover:border-indigo-500/40'
+                : 'bg-gray-800/80 border border-gray-700/60 text-white hover:bg-rose-500/20 hover:border-rose-500/40'
               } disabled:opacity-40`}
           >
             {k}
@@ -100,7 +100,7 @@ function SetupFlow({ onDone }) {
       {step === 'name' && (
         <motion.div key="name" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -24 }} className="w-full flex flex-col items-center gap-4">
           <div className="text-center">
-            <p className="text-gray-400 text-sm">Wie lautet dein Krieger-Name?</p>
+            <p className="text-gray-400 text-sm">Wie dürfen wir dich nennen?</p>
           </div>
           <input
             ref={inputRef}
@@ -108,13 +108,13 @@ function SetupFlow({ onDone }) {
             onChange={e => { setName(e.target.value); setError(''); }}
             onKeyDown={e => e.key === 'Enter' && handleNameNext()}
             placeholder="z.B. Kevin"
-            className="w-full max-w-xs text-center text-xl font-bold bg-transparent border-b-2 border-indigo-500/50 focus:border-indigo-400 text-white placeholder-gray-600 focus:outline-none py-2"
+            className="w-full max-w-xs text-center text-xl font-bold bg-transparent border-b-2 border-rose-500/50 focus:border-rose-400 text-white placeholder-gray-600 focus:outline-none py-2"
           />
           {error && <p className="text-red-400 text-xs">{error}</p>}
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleNameNext}
-            className="mt-2 px-8 py-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-cyan-500 text-white font-bold text-sm shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] transition-all"
+            className="mt-2 px-8 py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-violet-500 text-white font-bold text-sm shadow-[0_0_20px_rgba(244,63,94,0.4)] hover:shadow-[0_0_30px_rgba(244,63,94,0.6)] transition-all"
           >
             Weiter →
           </motion.button>
@@ -216,9 +216,9 @@ export default function LoginScreen({ onAuthenticated }) {
     >
       {/* Background glow orbs */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)' }} />
+        style={{ background: 'radial-gradient(circle, rgba(244,63,94,0.12) 0%, transparent 70%)' }} />
       <div className="absolute bottom-1/3 left-1/4 w-64 h-64 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.07) 0%, transparent 70%)' }} />
+        style={{ background: 'radial-gradient(circle, rgba(167,139,250,0.07) 0%, transparent 70%)' }} />
 
       {/* Logo / hero */}
       <motion.div
@@ -231,13 +231,13 @@ export default function LoginScreen({ onAuthenticated }) {
           animate={{ scale: [1, 1.06, 1] }}
           transition={{ duration: 3, repeat: Infinity }}
           className="w-20 h-20 rounded-3xl mx-auto mb-4 flex items-center justify-center"
-          style={{ background: 'linear-gradient(135deg, #6366f1, #22d3ee)', boxShadow: '0 0 40px rgba(99,102,241,0.5)' }}
+          style={{ background: 'linear-gradient(135deg, #fb7185, #a78bfa)', boxShadow: '0 0 40px rgba(244,63,94,0.5)' }}
         >
-          <Sword size={36} className="text-white" />
+          <Sparkles size={36} className="text-white" />
         </motion.div>
-        <h1 className="text-4xl font-black text-white tracking-tight">FitQuest</h1>
-        <p className="text-indigo-400 text-sm font-medium mt-1 uppercase tracking-widest">
-          {setup ? 'Willkommen zurück, Krieger' : 'Dein Abenteuer beginnt'}
+        <h1 className="text-4xl font-black text-white tracking-tight">Funke</h1>
+        <p className="text-rose-400 text-sm font-medium mt-1 uppercase tracking-widest">
+          {setup ? 'Willkommen zurück' : 'Lass den Funken überspringen'}
         </p>
       </motion.div>
 
@@ -249,15 +249,15 @@ export default function LoginScreen({ onAuthenticated }) {
         className="w-full max-w-sm rounded-3xl p-6 border"
         style={{
           background: 'rgba(255,255,255,0.03)',
-          borderColor: 'rgba(99,102,241,0.25)',
+          borderColor: 'rgba(244,63,94,0.25)',
           backdropFilter: 'blur(16px)',
-          boxShadow: '0 0 60px rgba(99,102,241,0.1)',
+          boxShadow: '0 0 60px rgba(244,63,94,0.1)',
         }}
       >
         {/* Step label */}
         <div className="flex items-center gap-2 mb-4 justify-center">
-          <Shield size={14} className="text-indigo-400" />
-          <span className="text-xs text-indigo-400 uppercase tracking-widest font-semibold">
+          <Shield size={14} className="text-rose-400" />
+          <span className="text-xs text-rose-400 uppercase tracking-widest font-semibold">
             {setup ? 'Sicherheit' : 'Registrierung'}
           </span>
         </div>
