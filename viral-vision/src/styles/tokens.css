@@ -12,8 +12,9 @@
 
   /* Typography — only 400/600 are ever loaded, enforcing the two-weight rule */
   --font-sans: 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  --text-display: clamp(2.75rem, 2rem + 3.5vw, 5.5rem);
+  --text-display: clamp(2.5rem, 1.75rem + 4vw, 5.5rem);
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.02em;
 
@@ -55,6 +56,9 @@
   /* Purple glow, used on hover/active CTA states */
   --shadow-glow-sm: 0 0 0 1px rgba(139, 92, 246, 0.15), 0 0 20px rgba(139, 92, 246, 0.35);
   --shadow-glow-md: 0 0 0 1px rgba(139, 92, 246, 0.2), 0 0 40px rgba(139, 92, 246, 0.45);
+
+  /* Glass bevel — inner highlight for premium button/surface depth */
+  --shadow-bevel: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 
   /* Motion */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
