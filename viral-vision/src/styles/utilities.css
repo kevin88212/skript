@@ -1,0 +1,22 @@
+@layer utilities {
+  .glass-nav {
+    background-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .grid-texture {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+
+  .text-gradient-primary {
+    background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
