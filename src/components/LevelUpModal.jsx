@@ -1,24 +1,26 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { exercises } from '../data/exercises';
-import { meals } from '../data/meals';
-
-function getUnlocksAtLevel(level) {
-  const newExercises = exercises.filter(e => e.unlockLevel === level);
-  const newMeals = [
-    ...meals.breakfasts.filter(m => m.unlockLevel === level),
-    ...meals.lunches.filter(m => m.unlockLevel === level),
-    ...meals.dinners.filter(m => m.unlockLevel === level),
-  ];
-  return { newExercises, newMeals };
-}
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const LEVEL_TITLES = [
-  '', 'Newcomer', 'Krieger', 'Kämpfer', 'Veteran', 'Champion', 'Legende'
+  '', 'Anfänger', 'Mutig', 'Selbstsicher', 'Furchtlos', 'Charismatisch', 'Legende'
+];
+
+const MOTIVATION = [
+  'Weiter so — du wirst mit jedem Level mutiger!',
+  'Jeder Schritt aus der Komfortzone zählt.',
+  'Du wächst gerade an genau den Dingen, die dir schwerfallen.',
+  'Kleine Mutproben, große Wirkung — mach weiter so!',
 ];
 
 export default function LevelUpModal({ level, onClose }) {
-  const { newExercises, newMeals } = getUnlocksAtLevel(level);
   const title = LEVEL_TITLES[level] ?? `Level ${level}`;
+  const motivationText = MOTIVATION[level % MOTIVATION.length];
+  const [particles] = useState(() =>
+    Array.from({ length: 12 }, (_, i) => ({
+      x: Math.cos((i / 12) * 2 * Math.PI) * (120 + Math.random() * 80),
+      y: Math.sin((i / 12) * 2 * Math.PI) * (120 + Math.random() * 80),
+    }))
+  );
 
   return (
     <motion.div
@@ -39,8 +41,8 @@ export default function LevelUpModal({ level, onClose }) {
           initial={{ scale: 0, x: 0, y: 0 }}
           animate={{
             scale: [0, 1.5, 0],
-            x: Math.cos((i / 12) * 2 * Math.PI) * (120 + Math.random() * 80),
-            y: Math.sin((i / 12) * 2 * Math.PI) * (120 + Math.random() * 80),
+            x: particles[i].x,
+            y: particles[i].y,
           }}
           transition={{ duration: 0.9, delay: 0.1, ease: 'easeOut' }}
         />
@@ -67,60 +69,9 @@ export default function LevelUpModal({ level, onClose }) {
         </h1>
         <div className="text-lg font-bold text-neon-amber mb-4">{title}</div>
 
-        {/* Neu freigeschaltet */}
-        {(newExercises.length > 0 || newMeals.length > 0) ? (
-          <div className="space-y-3 mb-5 text-left">
-            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide text-center">
-              🔓 Jetzt freigeschaltet
-            </div>
-
-            {newExercises.length > 0 && (
-              <div className="space-y-1.5">
-                <div className="text-xs text-indigo-300 font-semibold">⚔️ Übungen</div>
-                {newExercises.map(ex => (
-                  <motion.div
-                    key={ex.id}
-                    initial={{ opacity: 0, x: -15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="flex items-center gap-2 p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20"
-                  >
-                    <span className="text-lg">{ex.emoji}</span>
-                    <div>
-                      <div className="text-sm font-semibold text-white">{ex.name}</div>
-                      <div className="text-xs text-gray-500">{ex.muscle} · +{ex.xp} XP</div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-
-            {newMeals.length > 0 && (
-              <div className="space-y-1.5">
-                <div className="text-xs text-cyan-300 font-semibold">🍽️ Rezepte</div>
-                {newMeals.map(m => (
-                  <motion.div
-                    key={m.id}
-                    initial={{ opacity: 0, x: -15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="flex items-center gap-2 p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20"
-                  >
-                    <span className="text-lg">{m.emoji}</span>
-                    <div>
-                      <div className="text-sm font-semibold text-white">{m.name}</div>
-                      <div className="text-xs text-gray-500">{m.kcal} kcal · {m.protein}g Protein</div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="mb-5 p-3 rounded-xl bg-white/5 text-sm text-gray-400">
-            Weiter so – mehr Inhalte warten auf den nächsten Level!
-          </div>
-        )}
+        <div className="mb-5 p-3 rounded-xl bg-white/5 text-sm text-gray-400">
+          {motivationText}
+        </div>
 
         <motion.button
           whileHover={{ scale: 1.03 }}
@@ -128,7 +79,7 @@ export default function LevelUpModal({ level, onClose }) {
           onClick={onClose}
           className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold glow-indigo"
         >
-          Weiter kämpfen! 💪
+          Weiter so! 🚀
         </motion.button>
       </motion.div>
     </motion.div>

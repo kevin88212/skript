@@ -1,22 +1,18 @@
 import { NavLink } from 'react-router-dom';
-import { Sword, Utensils, Calendar, Dumbbell, Shield, User, TrendingUp } from 'lucide-react';
+import { Shield, BookOpen, Target, TrendingUp, User } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 const links = [
-  { to: '/',          icon: Shield,    label: 'Dashboard' },
-  { to: '/workout',   icon: Dumbbell,  label: 'Training'  },
-  { to: '/meals',     icon: Utensils,  label: 'Ernährung' },
-  { to: '/progress',  icon: TrendingUp, label: 'Fortschritt' },
-  { to: '/calendar',  icon: Calendar,  label: 'Kalender'  },
-  { to: '/exercises', icon: Sword,     label: 'Übungen'   },
-  { to: '/profile',   icon: User,      label: 'Profil'    },
+  { to: '/',           icon: Shield,     label: 'Dashboard'   },
+  { to: '/lektionen',  icon: BookOpen,   label: 'Lektionen'   },
+  { to: '/training',   icon: Target,     label: 'Training'    },
+  { to: '/progress',   icon: TrendingUp, label: 'Fortschritt' },
+  { to: '/profile',    icon: User,       label: 'Profil'      },
 ];
 
 export default function Navbar() {
-  const { profile, focusModeActive } = useApp();
+  const { profile, completedScenarios } = useApp();
   const xpPct = Math.round((profile.xp / profile.xpToNext) * 100);
-
-  if (focusModeActive) return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 md:static md:flex md:flex-col md:w-64 md:min-h-screen">
@@ -24,9 +20,9 @@ export default function Navbar() {
       <div className="hidden md:flex flex-col h-screen sticky top-0 card-dark border-r border-indigo-500/20 p-4">
         <div className="mb-8 text-center">
           <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 tracking-wider">
-            FITQUEST
+            MUT
           </div>
-          <div className="text-xs text-gray-500 mt-1 tracking-widest uppercase">Fitness RPG</div>
+          <div className="text-xs text-gray-500 mt-1 tracking-widest uppercase">Mehr Mut. Jeden Tag.</div>
         </div>
 
         <div className="mb-6 p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
@@ -48,7 +44,7 @@ export default function Navbar() {
           </div>
           <div className="flex gap-3 mt-2 text-xs text-gray-400">
             <span>🔥 {profile.streak} Streak</span>
-            <span>🏋️ {profile.totalWorkouts} Workouts</span>
+            <span>🎯 {completedScenarios.length} Trainings</span>
           </div>
         </div>
 
@@ -65,10 +61,10 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="mt-auto text-center text-xs text-gray-600 py-2">v2.0 · FitQuest RPG</div>
+        <div className="mt-auto text-center text-xs text-gray-600 py-2">v1.0 · Mut</div>
       </div>
 
-      {/* Mobile bottom bar – scrollable for 7 items */}
+      {/* Mobile bottom bar */}
       <div className="md:hidden flex bg-gray-950/95 backdrop-blur-xl border-t border-indigo-500/20 overflow-x-auto px-1 py-2 scrollbar-hide">
         {links.map(({ to, icon: Icon, label }) => (
           <NavLink key={to} to={to} end={to === '/'}

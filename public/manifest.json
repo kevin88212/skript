@@ -1,14 +1,14 @@
 {
-  "name": "FitQuest RPG",
-  "short_name": "FitQuest",
-  "description": "Dein persönlicher Fitness-Coach als Videospiel",
+  "name": "Mut",
+  "short_name": "Mut",
+  "description": "Dein persönlicher Coach für mehr Mut, Schlagfertigkeit und Selbstbewusstsein",
   "start_url": "/skript/",
   "scope": "/skript/",
   "display": "standalone",
   "background_color": "#050508",
   "theme_color": "#6366f1",
   "orientation": "portrait-primary",
-  "categories": ["health", "fitness", "lifestyle"],
+  "categories": ["lifestyle", "education", "health"],
   "icons": [
     {
       "src": "/skript/icons/icon-192.png",

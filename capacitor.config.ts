@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'de.fitquest.app',
-  appName: 'FitQuest',
+  appId: 'de.mut.app',
+  appName: 'Mut',
   webDir: 'dist',
   ios: {
     contentInset: 'automatic',

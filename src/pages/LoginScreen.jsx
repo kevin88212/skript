@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sword, Shield, AlertTriangle } from 'lucide-react';
+import { Flame, Shield, AlertTriangle } from 'lucide-react';
 import { setupAuth, verifyPin, isSetup, unlock, resetAuth } from '../services/auth';
 
 const PIN_LENGTH = 4;
@@ -31,7 +31,7 @@ function Numpad({ onPress, onDelete, disabled }) {
   return (
     <div className="grid grid-cols-3 gap-3 w-full max-w-xs mx-auto">
       {keys.map((k, i) => {
-        if (k === '') return <div key={i} />;
+        if (k === '') return <div key={`empty-${i}`} />;
         const isDelete = k === '⌫';
         return (
           <motion.button
@@ -100,7 +100,7 @@ function SetupFlow({ onDone }) {
       {step === 'name' && (
         <motion.div key="name" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -24 }} className="w-full flex flex-col items-center gap-4">
           <div className="text-center">
-            <p className="text-gray-400 text-sm">Wie lautet dein Krieger-Name?</p>
+            <p className="text-gray-400 text-sm">Wie heißt du?</p>
           </div>
           <input
             ref={inputRef}
@@ -233,11 +233,11 @@ export default function LoginScreen({ onAuthenticated }) {
           className="w-20 h-20 rounded-3xl mx-auto mb-4 flex items-center justify-center"
           style={{ background: 'linear-gradient(135deg, #6366f1, #22d3ee)', boxShadow: '0 0 40px rgba(99,102,241,0.5)' }}
         >
-          <Sword size={36} className="text-white" />
+          <Flame size={36} className="text-white" />
         </motion.div>
-        <h1 className="text-4xl font-black text-white tracking-tight">FitQuest</h1>
+        <h1 className="text-4xl font-black text-white tracking-tight">Mut</h1>
         <p className="text-indigo-400 text-sm font-medium mt-1 uppercase tracking-widest">
-          {setup ? 'Willkommen zurück, Krieger' : 'Dein Abenteuer beginnt'}
+          {setup ? 'Willkommen zurück' : 'Dein Weg zu mehr Mut beginnt'}
         </p>
       </motion.div>
 

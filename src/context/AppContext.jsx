@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { getDailyMeals } from '../data/meals';
 import { getTodayChallenge } from '../data/challenges';
 
 const AppContext = createContext(null);
@@ -8,40 +7,23 @@ function loadLS(key, fallback) {
   try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; }
 }
 function saveLS(key, value) {
-  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* storage unavailable */ }
 }
 
 const INITIAL_PROFILE = {
-  name: 'Kevin', age: 24, weight: 109, height: 182,
-  level: 1, xp: 0, xpToNext: 500, streak: 0, totalWorkouts: 0,
-  completedExercises: [], lastWorkout: null,
+  name: 'Kevin', level: 1, xp: 0, xpToNext: 500, streak: 0, lastActivity: null,
 };
 
 export function AppProvider({ children }) {
-  const [profile, setProfile] = useState(() => loadLS('fitness_profile', INITIAL_PROFILE));
-  const [dailyMeals, setDailyMeals] = useState(() => getDailyMeals());
-  const [focusModeActive, setFocusModeActive] = useState(false);
-  const [calendarEvents, setCalendarEvents] = useState([]);
-  const [googleConnected, setGoogleConnected] = useState(false);
+  const [profile, setProfile] = useState(() => loadLS('mut_profile', INITIAL_PROFILE));
   const [levelUpEvent, setLevelUpEvent] = useState(null);
-  const [completedWorkoutToday, setCompletedWorkoutToday] = useState(() => {
-    return localStorage.getItem('last_workout_date') === new Date().toDateString();
-  });
-
-  // ── New feature state ─────────────────────────────────────────────────────
-  const [weightHistory, setWeightHistory] = useState(() => loadLS('fitness_weight_history', []));
-  const [measurementHistory, setMeasurementHistory] = useState(() => loadLS('fitness_measurements', []));
-  const [workoutHistory, setWorkoutHistory] = useState(() => loadLS('fitness_workout_history', []));
-  const [waterGlasses, setWaterGlasses] = useState(() => {
-    const saved = loadLS('fitness_water', { date: '', count: 0 });
-    return saved.date === new Date().toDateString() ? saved.count : 0;
-  });
   const [dailyChallenge, setDailyChallenge] = useState(() => getTodayChallenge());
-  const [progressPhotos, setProgressPhotos] = useState(() => loadLS('fitness_photos', []));
-  const [activeBoss, setActiveBoss] = useState(() => loadLS('fitness_active_boss', null));
-  const [customMeals, setCustomMeals] = useState(() => loadLS('fitness_custom_meals', []));
+  const [challengeHistory, setChallengeHistory] = useState(() => loadLS('mut_challenge_history', []));
+  const [completedLessons, setCompletedLessons] = useState(() => loadLS('mut_completed_lessons', []));
+  const [completedScenarios, setCompletedScenarios] = useState(() => loadLS('mut_completed_scenarios', []));
+  const [activeScenario, setActiveScenario] = useState(null);
 
-  useEffect(() => { saveLS('fitness_profile', profile); }, [profile]);
+  useEffect(() => { saveLS('mut_profile', profile); }, [profile]);
 
   const gainXP = (amount) => {
     setProfile(prev => {
@@ -60,59 +42,18 @@ export function AppProvider({ children }) {
     });
   };
 
-  const completeWorkout = (dayLabel = '') => {
-    setCompletedWorkoutToday(true);
-    setFocusModeActive(false);
-    localStorage.setItem('last_workout_date', new Date().toDateString());
-    gainXP(200);
-    const entry = { id: Date.now(), date: new Date().toISOString(), day: dayLabel, xp: 200 };
-    setWorkoutHistory(prev => {
-      const next = [entry, ...prev].slice(0, 60);
-      saveLS('fitness_workout_history', next);
-      return next;
-    });
-    setProfile(prev => ({
-      ...prev,
-      totalWorkouts: prev.totalWorkouts + 1,
-      lastWorkout: new Date().toISOString(),
-      streak: prev.streak + 1,
-    }));
-  };
-
-  const refreshMeals = () => setDailyMeals(getDailyMeals(Math.floor(Math.random() * 100)));
   const updateProfile = (updates) => setProfile(prev => ({ ...prev, ...updates }));
 
-  // ── Weight logging ────────────────────────────────────────────────────────
-  const logWeight = (weight) => {
-    const entry = { date: new Date().toISOString(), weight };
-    setWeightHistory(prev => {
-      const next = [...prev, entry];
-      saveLS('fitness_weight_history', next);
-      return next;
+  const bumpStreak = () => {
+    setProfile(prev => {
+      const today = new Date().toDateString();
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      let streak = prev.streak;
+      if (prev.lastActivity === today) { /* already counted today */ }
+      else if (prev.lastActivity === yesterday) streak += 1;
+      else streak = 1;
+      return { ...prev, streak, lastActivity: today };
     });
-    updateProfile({ weight });
-  };
-
-  // ── Measurements logging ──────────────────────────────────────────────────
-  const logMeasurements = (data) => {
-    const entry = { date: new Date().toISOString(), ...data };
-    setMeasurementHistory(prev => {
-      const next = [...prev, entry];
-      saveLS('fitness_measurements', next);
-      return next;
-    });
-  };
-
-  // ── Water tracking ────────────────────────────────────────────────────────
-  const drinkWater = () => {
-    const next = Math.min(waterGlasses + 1, 12);
-    setWaterGlasses(next);
-    saveLS('fitness_water', { date: new Date().toDateString(), count: next });
-  };
-
-  const resetWater = () => {
-    setWaterGlasses(0);
-    saveLS('fitness_water', { date: new Date().toDateString(), count: 0 });
   };
 
   // ── Daily challenge ───────────────────────────────────────────────────────
@@ -121,98 +62,66 @@ export function AppProvider({ children }) {
     gainXP(dailyChallenge.xp);
     const updated = { ...dailyChallenge, done: true };
     setDailyChallenge(updated);
-    saveLS('fitness_daily_challenge', updated);
-  };
-
-  // ── Progress photos ───────────────────────────────────────────────────────
-  const addPhoto = (dataUrl, label = '') => {
-    const photo = { id: Date.now(), date: new Date().toISOString(), dataUrl, label };
-    setProgressPhotos(prev => {
-      const next = [...prev, photo];
-      saveLS('fitness_photos', next);
+    saveLS('mut_daily_challenge', updated);
+    setChallengeHistory(prev => {
+      const next = [...prev, { date: new Date().toDateString(), challengeId: dailyChallenge.id, title: dailyChallenge.title, xp: dailyChallenge.xp }];
+      saveLS('mut_challenge_history', next);
       return next;
     });
+    bumpStreak();
   };
 
-  const removePhoto = (id) => {
-    setProgressPhotos(prev => {
-      const next = prev.filter(p => p.id !== id);
-      saveLS('fitness_photos', next);
+  // ── Lektionen ─────────────────────────────────────────────────────────────
+  const markLessonRead = (id) => {
+    if (completedLessons.includes(id)) return;
+    setCompletedLessons(prev => {
+      const next = [...prev, id];
+      saveLS('mut_completed_lessons', next);
       return next;
     });
+    gainXP(15);
   };
 
-  // ── Boss fight ────────────────────────────────────────────────────────────
-  const startBoss = (boss) => {
-    const state = { ...boss, currentHp: boss.maxHp, defeatedAttacks: [] };
-    setActiveBoss(state);
-    saveLS('fitness_active_boss', state);
-  };
+  // ── Trainings-Szenarien ───────────────────────────────────────────────────
+  const startScenario = (scenario) => setActiveScenario(scenario);
+  const closeScenario = () => setActiveScenario(null);
 
-  const defeatBoss = (xp) => {
-    gainXP(xp);
-    setActiveBoss(null);
-    saveLS('fitness_active_boss', null);
-  };
-
-  const closeBoss = () => {
-    setActiveBoss(null);
-    saveLS('fitness_active_boss', null);
+  const completeScenario = (xp, quality, scenarioId) => {
+    const alreadyDone = completedScenarios.some(s => s.id === scenarioId);
+    if (!alreadyDone) gainXP(xp);
+    setCompletedScenarios(prev => {
+      const next = [...prev, { id: scenarioId, quality, xp: alreadyDone ? 0 : xp, date: new Date().toISOString() }];
+      saveLS('mut_completed_scenarios', next);
+      return next;
+    });
   };
 
   const resetAll = () => {
     const keys = [
-      'fitness_profile', 'fitness_weight_history', 'fitness_measurements',
-      'fitness_workout_history', 'fitness_water', 'fitness_daily_challenge',
-      'fitness_photos', 'fitness_active_boss', 'fitness_custom_meals',
-      'last_workout_date', 'health_connected', 'notification_reminder_time',
+      'mut_profile', 'mut_daily_challenge', 'mut_challenge_history',
+      'mut_completed_lessons', 'mut_completed_scenarios',
+      'notification_reminder_time',
     ];
     keys.forEach(k => localStorage.removeItem(k));
     window.location.reload();
   };
 
-  // ── Custom meals ──────────────────────────────────────────────────────────
-  const addCustomMeal = (meal) => {
-    const entry = { ...meal, id: `custom_${Date.now()}`, isCustom: true };
-    setCustomMeals(prev => {
-      const next = [...prev, entry];
-      saveLS('fitness_custom_meals', next);
-      return next;
-    });
-  };
-
-  const removeCustomMeal = (id) => {
-    setCustomMeals(prev => {
-      const next = prev.filter(m => m.id !== id);
-      saveLS('fitness_custom_meals', next);
-      return next;
-    });
-  };
-
   return (
     <AppContext.Provider value={{
-      profile, updateProfile, gainXP, completeWorkout,
-      dailyMeals, refreshMeals,
-      focusModeActive, setFocusModeActive,
-      completedWorkoutToday,
+      profile, updateProfile, gainXP,
       levelUpEvent, setLevelUpEvent,
-      calendarEvents, setCalendarEvents,
-      googleConnected, setGoogleConnected,
-      // New
-      weightHistory, logWeight,
-      measurementHistory, logMeasurements,
-      workoutHistory,
-      waterGlasses, drinkWater, resetWater,
       dailyChallenge, completeChallenge,
-      progressPhotos, addPhoto, removePhoto,
-      activeBoss, startBoss, defeatBoss, closeBoss, resetAll,
-      customMeals, addCustomMeal, removeCustomMeal,
+      challengeHistory,
+      completedLessons, markLessonRead,
+      completedScenarios, activeScenario, startScenario, closeScenario, completeScenario,
+      resetAll,
     }}>
       {children}
     </AppContext.Provider>
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components -- context + hook live together by convention
 export const useApp = () => {
   const ctx = useContext(AppContext);
   if (!ctx) throw new Error('useApp must be used within AppProvider');
