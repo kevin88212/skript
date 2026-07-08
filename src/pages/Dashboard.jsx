@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Flame, Zap, BookOpen, Target, ChevronRight } from 'lucide-react';
+import { Flame, Zap, BookOpen, Target, Bot, ChevronRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { CATEGORIES } from '../data/lessons';
@@ -140,6 +140,22 @@ export default function Dashboard() {
             Alle Szenarien <ChevronRight size={16} />
           </motion.button>
         </div>
+      </motion.div>
+
+      {/* KI-Trainer CTA */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+        className="card-dark rounded-2xl p-5 border border-emerald-500/30">
+        <div className="flex items-center gap-2 mb-3">
+          <Bot size={16} className="text-emerald-400" />
+          <span className="text-xs text-emerald-400 uppercase tracking-widest font-medium">KI-Trainer</span>
+        </div>
+        <h2 className="text-xl font-bold text-white mb-1">Übe im echten Gespräch</h2>
+        <p className="text-gray-400 text-sm mb-4">Chatte mit einem KI-Partner – Smalltalk, Flirten, Kontern – und bekomm Coach-Feedback.</p>
+        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+          onClick={() => navigate('/ki')}
+          className="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-500 text-white font-semibold glow-green">
+          <Bot size={16} /> Gespräch starten
+        </motion.button>
       </motion.div>
 
       <CategorySection />

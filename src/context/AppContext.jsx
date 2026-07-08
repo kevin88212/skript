@@ -21,6 +21,7 @@ export function AppProvider({ children }) {
   const [challengeHistory, setChallengeHistory] = useState(() => loadLS('mut_challenge_history', []));
   const [completedLessons, setCompletedLessons] = useState(() => loadLS('mut_completed_lessons', []));
   const [completedScenarios, setCompletedScenarios] = useState(() => loadLS('mut_completed_scenarios', []));
+  const [completedAiSessions, setCompletedAiSessions] = useState(() => loadLS('mut_ai_sessions', []));
   const [activeScenario, setActiveScenario] = useState(null);
 
   useEffect(() => { saveLS('mut_profile', profile); }, [profile]);
@@ -96,10 +97,21 @@ export function AppProvider({ children }) {
     });
   };
 
+  // ── KI-Trainer ────────────────────────────────────────────────────────────
+  const completeAiSession = ({ scenarioId, title, messages }) => {
+    gainXP(50);
+    setCompletedAiSessions(prev => {
+      const next = [...prev, { scenarioId, title, messages, date: new Date().toISOString() }];
+      saveLS('mut_ai_sessions', next);
+      return next;
+    });
+    bumpStreak();
+  };
+
   const resetAll = () => {
     const keys = [
       'mut_profile', 'mut_daily_challenge', 'mut_challenge_history',
-      'mut_completed_lessons', 'mut_completed_scenarios',
+      'mut_completed_lessons', 'mut_completed_scenarios', 'mut_ai_sessions',
       'notification_reminder_time',
     ];
     keys.forEach(k => localStorage.removeItem(k));
@@ -114,6 +126,7 @@ export function AppProvider({ children }) {
       challengeHistory,
       completedLessons, markLessonRead,
       completedScenarios, activeScenario, startScenario, closeScenario, completeScenario,
+      completedAiSessions, completeAiSession,
       resetAll,
     }}>
       {children}

@@ -116,10 +116,10 @@ const QUALITY_COLOR = { schwach: 'text-neon-red', gut: 'text-neon-amber', stark:
 const QUALITY_LABEL = { schwach: 'Schwach', gut: 'Gut', stark: 'Stark' };
 
 function TrainingTab() {
-  const { completedScenarios } = useApp();
-  if (completedScenarios.length === 0) return (
+  const { completedScenarios, completedAiSessions } = useApp();
+  if (completedScenarios.length === 0 && completedAiSessions.length === 0) return (
     <div className="text-center py-12 text-gray-600 text-sm">
-      Noch kein Training absolviert.<br />Starte dein erstes Szenario!
+      Noch kein Training absolviert.<br />Starte dein erstes Szenario oder KI-Gespräch!
     </div>
   );
 
@@ -136,6 +136,17 @@ function TrainingTab() {
           </div>
         ))}
       </div>
+
+      {completedAiSessions.length > 0 && (
+        <div className="card-dark rounded-2xl p-4 border border-emerald-500/20 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 flex items-center justify-center text-lg">🤖</div>
+          <div className="flex-1">
+            <div className="text-sm font-semibold text-white">KI-Gespräche</div>
+            <div className="text-xs text-gray-500">Mit dem KI-Trainer geübt</div>
+          </div>
+          <div className="text-xl font-black text-neon-green">{completedAiSessions.length}</div>
+        </div>
+      )}
       {[...completedScenarios].reverse().map((s, i) => {
         const scenario = SCENARIOS.find(sc => sc.id === s.id);
         return (

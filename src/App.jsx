@@ -9,6 +9,7 @@ import LoginScreen from './pages/LoginScreen';
 import Dashboard from './pages/Dashboard';
 import Lektionen from './pages/Lektionen';
 import Training from './pages/Training';
+import KITrainer from './pages/KITrainer';
 import Progress from './pages/Progress';
 import Profile from './pages/Profile';
 import { isSetup, isUnlocked } from './services/auth';
@@ -24,6 +25,7 @@ function AppShell({ onLock }) {
           <Route path="/"          element={<Dashboard />} />
           <Route path="/lektionen" element={<Lektionen />} />
           <Route path="/training"  element={<Training />} />
+          <Route path="/ki"        element={<KITrainer />} />
           <Route path="/progress"  element={<Progress />} />
           <Route path="/profile"   element={<Profile onLock={onLock} />} />
         </Routes>

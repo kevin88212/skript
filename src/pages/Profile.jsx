@@ -1,20 +1,23 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Save, User, Trophy, Flame, Target, LogOut, Bell } from 'lucide-react';
+import { Save, User, Trophy, Flame, Target, LogOut, Bell, Bot, Check } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { lock } from '../services/auth';
 import { requestNotificationPermission, isNotificationsGranted, scheduleChallengeReminder } from '../services/notifications';
+import { getAiKey, setAiKey } from '../services/ai';
 
 const LEVEL_TITLES = [
   'Anfänger', 'Mutig', 'Selbstsicher', 'Furchtlos', 'Charismatisch', 'Legende'
 ];
 
 export default function Profile({ onLock }) {
-  const { profile, updateProfile, resetAll, completedLessons, completedScenarios } = useApp();
+  const { profile, updateProfile, resetAll, completedLessons, completedScenarios, completedAiSessions } = useApp();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ name: profile.name });
   const [notifGranted, setNotifGranted] = useState(isNotificationsGranted());
   const [reminderTime, setReminderTime] = useState(localStorage.getItem('notification_reminder_time') || '18:00');
+  const [keyInput, setKeyInput] = useState(getAiKey());
+  const [keySaved, setKeySaved] = useState(false);
 
   const xpPct = Math.round((profile.xp / profile.xpToNext) * 100);
   const title = LEVEL_TITLES[Math.min(profile.level - 1, LEVEL_TITLES.length - 1)];
@@ -25,7 +28,8 @@ export default function Profile({ onLock }) {
     { id: 3, name: 'Bücherwurm', desc: '5 Lektionen gelesen', emoji: '📚', unlocked: completedLessons.length >= 5 },
     { id: 4, name: 'Geübt', desc: '5 Trainingsszenarien abgeschlossen', emoji: '🎯', unlocked: completedScenarios.length >= 5 },
     { id: 5, name: 'Schlagfertig', desc: 'Eine Antwort mit „stark" abgeschlossen', emoji: '⚡', unlocked: completedScenarios.some(s => s.quality === 'stark') },
-    { id: 6, name: 'Level 5', desc: 'Level 5 erreichen', emoji: '🏆', unlocked: profile.level >= 5 },
+    { id: 6, name: 'Gesprächsprofi', desc: 'Ein KI-Gespräch trainiert', emoji: '🤖', unlocked: completedAiSessions.length >= 1 },
+    { id: 7, name: 'Level 5', desc: 'Level 5 erreichen', emoji: '🏆', unlocked: profile.level >= 5 },
   ];
 
   const save = () => {
@@ -37,6 +41,16 @@ export default function Profile({ onLock }) {
     const granted = await requestNotificationPermission();
     setNotifGranted(granted);
     if (granted) scheduleChallengeReminder(reminderTime);
+  };
+
+  const saveKey = () => {
+    setAiKey(keyInput);
+    setKeySaved(true);
+    setTimeout(() => setKeySaved(false), 2000);
+  };
+  const clearKey = () => {
+    setAiKey('');
+    setKeyInput('');
   };
 
   return (
@@ -142,6 +156,41 @@ export default function Profile({ onLock }) {
             </button>
           </div>
         )}
+      </div>
+
+      {/* KI-Einstellungen */}
+      <div className="card-dark rounded-2xl p-5 border border-emerald-500/20">
+        <div className="flex items-center gap-2 mb-3">
+          <Bot size={16} className="text-emerald-400" />
+          <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-widest">KI-Trainer</h2>
+        </div>
+        <p className="text-xs text-gray-400 mb-3">
+          Für echte, freie Gespräche mit dem KI-Trainer kannst du einen kostenlosen Google-Gemini-Schlüssel hinterlegen.
+          Ohne Schlüssel läuft der Offline-Coach. Der Schlüssel wird <strong className="text-gray-300">nur lokal auf diesem Gerät</strong> gespeichert.
+        </p>
+        <div className="flex gap-2 mb-2">
+          <input
+            type="password"
+            value={keyInput}
+            onChange={e => setKeyInput(e.target.value)}
+            placeholder="Gemini API-Schlüssel"
+            className="flex-1 min-w-0 bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-emerald-500/60"
+          />
+          <button onClick={saveKey}
+            className="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-sm font-semibold hover:bg-emerald-500/30 transition-all flex items-center gap-1">
+            {keySaved ? <><Check size={14} /> Ok</> : 'Speichern'}
+          </button>
+          {getAiKey() && (
+            <button onClick={clearKey}
+              className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-700/60 text-gray-400 text-sm hover:text-red-400 hover:border-red-500/30 transition-all">
+              Löschen
+            </button>
+          )}
+        </div>
+        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer"
+          className="text-xs text-emerald-400 hover:text-emerald-300 underline">
+          Kostenlosen Schlüssel bei Google AI Studio holen →
+        </a>
       </div>
 
       {/* Achievements */}

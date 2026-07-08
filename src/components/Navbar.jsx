@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { Shield, BookOpen, Target, TrendingUp, User } from 'lucide-react';
+import { Shield, BookOpen, Target, Bot, TrendingUp, User } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 const links = [
   { to: '/',           icon: Shield,     label: 'Dashboard'   },
   { to: '/lektionen',  icon: BookOpen,   label: 'Lektionen'   },
   { to: '/training',   icon: Target,     label: 'Training'    },
+  { to: '/ki',         icon: Bot,        label: 'KI-Trainer'  },
   { to: '/progress',   icon: TrendingUp, label: 'Fortschritt' },
   { to: '/profile',    icon: User,       label: 'Profil'      },
 ];
